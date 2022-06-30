@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="LibraryManagement">
+      <UniqueIdentifier>{29a92053-3c73-40cc-a693-21d065527a0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryManagement\headers">
+      <UniqueIdentifier>{5fc76f14-a54f-41b9-8024-4ff3000aa096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryManagement\sources">
+      <UniqueIdentifier>{554500cd-e208-4cdb-bfc0-9ec9dcd8bebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Views">
+      <UniqueIdentifier>{1a2e2599-6615-44a7-8968-98d3e5193ff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Views">
+      <UniqueIdentifier>{0b3ae3a0-0cae-4f5e-9e1a-8e7328c72fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Layouts">
+      <UniqueIdentifier>{7b796399-7505-436d-ade4-425fad72ec48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Layouts">
+      <UniqueIdentifier>{c39fb30e-6420-4dc7-b29b-e9f4507f053b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImmediateMode">
+      <UniqueIdentifier>{a72f4385-46d2-41cb-aeca-51862f650f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{9d63547c-aff6-453b-8e33-43e76609824c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="basictypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FlameUI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Book.h">
+      <Filter>LibraryManagement\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Borrower.h">
+      <Filter>LibraryManagement\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ISerializer.h">
+      <Filter>LibraryManagement\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="RadioButton.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Scroller.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollView.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEditBase.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEditor.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Toggle.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearPlacer.h">
+      <Filter>头文件\Layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="SectionBar.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>LibraryManagement\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SheetView.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui.h">
+      <Filter>ImmediateMode</Filter>
+    </ClInclude>
+    <ClInclude Include="RootView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreeList.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DViewPort.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuFrame.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPainter.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="DockProvider.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IDockProvider.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SeperatorHandle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiCanvas.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="IReflectable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoPlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="View.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FlameUI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Book.cpp">
+      <Filter>LibraryManagement\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Borrower.cpp">
+      <Filter>LibraryManagement\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ISerializer.cpp">
+      <Filter>LibraryManagement\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="RadioButton.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Scroller.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollView.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEditBase.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEditor.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Toggle.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearPlacer.cpp">
+      <Filter>源文件\Layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="SectionBar.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>LibraryManagement\sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SheetView.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="RootView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreeList.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DViewPort.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFrame.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPainter.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="DockProvider.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SeperatorHandle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui.cpp">
+      <Filter>ImmediateMode</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiCanvas.cpp">
+      <Filter>源文件\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoPlayer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="yuv2rgbv.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="yuv2rgbp.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
