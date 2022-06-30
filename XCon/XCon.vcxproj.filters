@@ -13,15 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="LibraryManagement">
-      <UniqueIdentifier>{29a92053-3c73-40cc-a693-21d065527a0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryManagement\headers">
-      <UniqueIdentifier>{5fc76f14-a54f-41b9-8024-4ff3000aa096}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryManagement\sources">
-      <UniqueIdentifier>{554500cd-e208-4cdb-bfc0-9ec9dcd8bebd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\Views">
       <UniqueIdentifier>{1a2e2599-6615-44a7-8968-98d3e5193ff4}</UniqueIdentifier>
     </Filter>
@@ -47,15 +38,6 @@
     </ClInclude>
     <ClInclude Include="FlameUI.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Book.h">
-      <Filter>LibraryManagement\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Borrower.h">
-      <Filter>LibraryManagement\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ISerializer.h">
-      <Filter>LibraryManagement\headers</Filter>
     </ClInclude>
     <ClInclude Include="View.h">
       <Filter>头文件</Filter>
@@ -101,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="SectionBar.h">
       <Filter>头文件\Views</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>LibraryManagement\headers</Filter>
     </ClInclude>
     <ClInclude Include="SheetView.h">
       <Filter>头文件\Views</Filter>
@@ -158,15 +137,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Book.cpp">
-      <Filter>LibraryManagement\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Borrower.cpp">
-      <Filter>LibraryManagement\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ISerializer.cpp">
-      <Filter>LibraryManagement\sources</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>源文件\Views</Filter>
     </ClCompile>
@@ -208,9 +178,6 @@
     </ClCompile>
     <ClCompile Include="SectionBar.cpp">
       <Filter>源文件\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>LibraryManagement\sources</Filter>
     </ClCompile>
     <ClCompile Include="SheetView.cpp">
       <Filter>源文件\Views</Filter>
