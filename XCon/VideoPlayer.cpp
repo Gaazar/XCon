@@ -5,23 +5,29 @@
 #include "yuv2rgbp.h"
 #include "yuv2rgbv.h"
 
-
+#include <iostream>
 #pragma comment(lib, "avcodec.lib")
 #pragma comment(lib, "avformat.lib")
 #pragma comment(lib, "avutil.lib")
 using namespace FlameUI;
-VideoPlayer::VideoPlayer(View* parent) :D3DViewPort(parent)
+using namespace D2D1;
+
+VideoPlayer::VideoPlayer(View* parent) :View(parent)
 {
-	timer = Animate(16, 0, 0);
-	dontPaint = false;
+	timer = Animate(14, 0, 0);
 
 }
 
 void VideoPlayer::Animation(float progress, int p1, int p2)
 {
-	Animate(100, 0, 0, timer);
-	RenderFrame();
-	UpdateView();
+	if (progress == 1)
+	{
+		RenderFrame();
+		DisplayFrame();
+		UpdateView();
+		Animate(2, 0, 0, timer);
+
+	}
 }
 void VideoPlayer::RenderFrame()
 {
@@ -42,8 +48,19 @@ void VideoPlayer::RenderFrame()
 	deviceCtx->CopySubresourceRegion(videoTexture, 0, 0, 0, 0, t_frame, t_index, 0);
 	deviceCtx->Flush();
 
-	SetOutput(tex2d);
+	deviceCtx->Release();
+	videoTexture->Release();
 	av_frame_free(&frame);
+
+}
+void VideoPlayer::DisplayFrame() 
+{
+	IDXGISurface* dxgiSurface;
+	auto hr = tex2d->QueryInterface(&dxgiSurface);
+	if (img2d) img2d->Release();
+	hr = render.context->CreateImageSourceFromDxgi(&dxgiSurface, 1, DXGI_COLOR_SPACE_YCBCR_FULL_G22_NONE_P709_X601, D2D1_IMAGE_SOURCE_FROM_DXGI_OPTIONS_NONE, &img2d);
+
+	dxgiSurface->Release();
 
 }
 void VideoPlayer::PlayPause()
@@ -71,7 +88,7 @@ void VideoPlayer::Source(std::wstring url)
 	vcodecCtx->hw_device_ctx = hw_device_ctx;
 	width = vcodecCtx->width;
 	height = vcodecCtx->height;
-	
+
 	D3D11_TEXTURE2D_DESC tdesc = {};
 	tdesc.Format = DXGI_FORMAT_NV12;
 	tdesc.Usage = D3D11_USAGE_DEFAULT;
@@ -88,6 +105,18 @@ void VideoPlayer::Source(std::wstring url)
 	IDXGIResource* dxgiShareTexture;
 	tex2d->QueryInterface(IID_PPV_ARGS(&dxgiShareTexture));
 	dxgiShareTexture->GetSharedHandle(&sharedHandle);
+
+	/*tdesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	tdesc.Usage = D3D11_USAGE_DEFAULT;
+	tdesc.MiscFlags = 0;
+	tdesc.ArraySize = 1;
+	tdesc.MipLevels = 1;
+	tdesc.SampleDesc = { 1, 0 };
+	tdesc.Height = height;
+	tdesc.Width = width;
+	tdesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+	if (tex2d) tex2d->Release();
+	gD3D11Device->CreateTexture2D(&tdesc, nullptr, &texRt);*/
 
 }
 
@@ -115,4 +144,25 @@ AVFrame* VideoPlayer::NextFrame()
 	}
 
 	return nullptr;
+}
+
+LRESULT VideoPlayer::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
+{
+	return 0;
+}
+
+void VideoPlayer::Draw()
+{
+	auto ctx = BeginDraw(ColorF::ColorF(ColorF::Black, 0));
+	if (img2d)
+	{
+		D2D1_MATRIX_3X2_F mat;
+		ctx->GetTransform(&mat);
+		ctx->SetTransform(Matrix3x2F::Scale({ rect.width() / width,rect.height() / height }) * mat);
+		ctx->DrawImage(img2d);
+		ctx->SetTransform(mat);
+
+	}
+	EndDraw();
+
 }

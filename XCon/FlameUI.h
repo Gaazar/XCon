@@ -12,9 +12,9 @@
 namespace FlameUI
 {
 	extern ID3D11Device1* gD3D11Device;
-	extern ID2D1Device1* gD2DDevice;
+	extern ID2D1Device2* gD2DDevice;
 	extern IDXGIDevice1* gDXGIDevice;
-	extern ID2D1Factory2* gD2DFactory;
+	extern ID2D1Factory3* gD2DFactory;
 	extern IDWriteFactory* gDWFactory;
 	extern IDCompositionDevice* gDCompDevice;
 

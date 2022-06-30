@@ -27,9 +27,9 @@ vector<AnimationData> animations;
 animation_id aid_counter = 0;
 
 ID3D11Device1* FlameUI::gD3D11Device = nullptr;
-ID2D1Device1* FlameUI::gD2DDevice = nullptr;
+ID2D1Device2* FlameUI::gD2DDevice = nullptr;
 IDXGIDevice1* FlameUI::gDXGIDevice = nullptr;
-ID2D1Factory2* FlameUI::gD2DFactory = nullptr;
+ID2D1Factory3* FlameUI::gD2DFactory = nullptr;
 IDWriteFactory* FlameUI::gDWFactory = nullptr;
 IWICImagingFactory2* FlameUI::gWICFactory = nullptr;
 IDCompositionDevice* FlameUI::gDCompDevice = nullptr;

@@ -10,7 +10,6 @@
 #include "RadioButton.h"
 #include "TextEditor.h"
 
-#include "ISerializer.h"
 #include <fstream>
 #include <iostream>
 #include <set>
@@ -18,7 +17,6 @@
 using namespace FlameUI;
 using namespace std;
 
-#include "Manager.h"
 #include "LinearPlacer.h"
 #include "SectionBar.h"
 #include "SheetView.h"
@@ -51,10 +49,10 @@ int WinMain(HINSTANCE hInstance,
 	//mainFrame.AddEventListener(0, &cb_close, FE_DESTROY);
 	mainFrame.Title(L"XCon");
 	VideoPlayer vp(&mainFrame);
-	vp.Size({ 768,576 });
+	vp.Size({ 1024,576 });
 	vp.Position({ 10,40 });
-	vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
-
+	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
+	vp.Source(L"D:\\Videos\\vnv.mp4");
 	mainFrame.Show();
 	mainFrame.MainLoop();
 	//libm.Commit();

@@ -26,6 +26,10 @@ void D3DViewPort::SetOutput(ID3D11Resource* res, DXGI_FORMAT format)
 	hr = render.context->CreateSharedBitmap(__uuidof(IDXGISurface), dxgiSurface, &BitmapProperties(
 		D2D1::PixelFormat(format, D2D1_ALPHA_MODE_PREMULTIPLIED)), &d2dTex);
 }
+void D3DViewPort::SetOutput(ID2D1ImageSource* src)
+{
+
+}
 
 
 void D3DViewPort::Draw()

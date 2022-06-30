@@ -26,6 +26,7 @@ namespace FlameUI
 		void SetOutput(ID3D12Resource* res);
 #endif
 		void SetOutput(ID3D11Resource* res, DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM);
+		void SetOutput(ID2D1ImageSource* src);
 		void* GetD3DResource();
 		void* GetD3DDevice();
 		void* GetDXGIDevice();

@@ -11,8 +11,12 @@ extern "C" {
 namespace FlameUI
 {
 	class VideoPlayer :
-		public D3DViewPort
+		public View
 	{
+	protected:
+		LRESULT OnEvent(Message msg, WPARAM wParam, LPARAM lParam) override;
+		void Draw() override;
+
 	private:
 		AVFormatContext* fmtCtx = nullptr;
 		AVCodecContext* vcodecCtx = nullptr;
@@ -21,11 +25,14 @@ namespace FlameUI
 		int width;
 		int height;
 		ID3D11Texture2D* tex2d;
+		ID2D1ImageSource* img2d = nullptr;
+		//ID3D11Texture2D* texRt;
 		HANDLE sharedHandle;
 
 		AVFrame* NextFrame();
 		void Animation(float progress, int p1, int p2) override;
 		void RenderFrame();
+		void DisplayFrame();
 
 	public:
 		VideoPlayer(View* parent);

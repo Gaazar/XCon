@@ -1,6 +1,6 @@
 #pragma once
 #include "vector"
-#include <d2d1_2.h>
+#include <d2d1_3.h>
 #include <dxgi.h>
 #include <dxgi1_5.h>
 #include <wincodec.h>
@@ -244,7 +244,7 @@ namespace FlameUI {
 		bool grouped;//grouped = direct:false
 		bool direct;
 		bool container;//container = grouped:false + null context-content
-		ID2D1DeviceContext1* context;
+		ID2D1DeviceContext2* context;
 		ID2D1Bitmap1* content;
 		IDXGISurface* sharedSurface;
 		ID2D1Layer* clipLayer;
