@@ -28,9 +28,6 @@
     <Filter Include="ImmediateMode">
       <UniqueIdentifier>{a72f4385-46d2-41cb-aeca-51862f650f0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL">
-      <UniqueIdentifier>{9d63547c-aff6-453b-8e33-43e76609824c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h">
@@ -242,13 +239,5 @@
     <ClCompile Include="ControllWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="yuv2rgbv.hlsl">
-      <Filter>HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="yuv2rgbp.hlsl">
-      <Filter>HLSL</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

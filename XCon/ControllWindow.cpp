@@ -10,6 +10,8 @@
 #include "ScrollView.h"
 #include "global.h"
 #include <iostream>
+#include "LinearPlacer.h"
+
 using namespace FlameUI;
 using namespace configor;
 
@@ -180,24 +182,27 @@ void ShowControlWindow()
 
 	sv->Content()->Padding({ 10,0,10,0 }, true);
 
-	Button* btn = new Button(cframe);
+	Panel* bpnl = new Panel(cframe);
+	bpnl->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+	bpnl->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
+	bpnl->Position({ 15,8 });
+	bpnl->Layouter(new LinearPlacer(DIRECTION_HORIZONTAL, 5));
+
+	Button* btn = new Button(bpnl);
 	btn->Padding({ 10,5,10,5 });
 	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
-	btn->Position({ 5,5 });
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
 	new Label(btn, L"取消");
 
-	btn = new Button(cframe);
+	btn = new Button(bpnl);
 	btn->Padding({ 10,5,10,5 });
 	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
-	btn->Position({ 5 + 65,5 });
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
 	new Label(btn, L"保存");
 
-	btn = new Button(cframe);
+	btn = new Button(bpnl);
 	btn->Padding({ 10,5,10,5 });
 	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
-	btn->Position({ 5 + 65 * 2,5 });
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
 	new Label(btn, L"应用");
 
