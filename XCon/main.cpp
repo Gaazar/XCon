@@ -25,13 +25,19 @@ using namespace std;
 #include "SeperatorHandle.h"
 #include "ImGuiCanvas.h"
 #include "VideoPlayer.h"
+#include "XInputCehcker.h"
+
+#include "json.hpp"
 
 
 
 
 int main()
 {
+	configor::wjson j;
+	j[L"version"] = L"v0.1b";
 	WinMain(0, 0, nullptr, 0);
+
 	return 0;
 }
 
@@ -49,11 +55,14 @@ int WinMain(HINSTANCE hInstance,
 	//mainFrame.AddEventListener(0, &cb_close, FE_DESTROY);
 	mainFrame.Title(L"XCon");
 	VideoPlayer vp(&mainFrame);
-	vp.Size({ 1024,576 });
+	vp.Size({ 1260,576 });
 	vp.Position({ 10,40 });
 	vp.Source(L"udp://@192.168.1.5:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
+
+	XInputCehcker xic(&mainFrame);
+	xic.Position({ 50,50 });
 	mainFrame.Show();
 	mainFrame.MainLoop();
 	//libm.Commit();

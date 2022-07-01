@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>.\ffmpeg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\configor;.\ffmpeg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,11 +143,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h" />
+    <ClInclude Include="Chart.h" />
     <ClInclude Include="D3DViewPort.h" />
     <ClInclude Include="DockProvider.h" />
     <ClInclude Include="IDockProvider.h" />
     <ClInclude Include="ImGui.h" />
     <ClInclude Include="ImGuiCanvas.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="IReflectable.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CheckBox.h" />
@@ -173,8 +175,10 @@
     <ClInclude Include="Toggle.h" />
     <ClInclude Include="VideoPlayer.h" />
     <ClInclude Include="View.h" />
+    <ClInclude Include="XInputCehcker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Chart.cpp" />
     <ClCompile Include="D3DViewPort.cpp" />
     <ClCompile Include="DockProvider.cpp" />
     <ClCompile Include="ImGui.cpp" />
@@ -206,6 +210,7 @@
     <ClCompile Include="Toggle.cpp" />
     <ClCompile Include="VideoPlayer.cpp" />
     <ClCompile Include="View.cpp" />
+    <ClCompile Include="XInputCehcker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="yuv2rgbp.hlsl">

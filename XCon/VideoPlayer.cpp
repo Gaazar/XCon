@@ -168,13 +168,33 @@ LRESULT VideoPlayer::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 
 void VideoPlayer::Draw()
 {
-	auto ctx = BeginDraw(ColorF::ColorF(ColorF::Black, 0));
+	auto ctx = BeginDraw(ColorF::ColorF(ColorF::Black, 1));
 	if (img2d)
 	{
 		D2D1_MATRIX_3X2_F mat;
 		ctx->GetTransform(&mat);
-		ctx->SetTransform(Matrix3x2F::Scale({ rect.width() / width,rect.height() / height }) * mat);
-		ctx->DrawImage(img2d);
+		if (fillMode == 1)
+		{
+			ctx->SetTransform(Matrix3x2F::Scale({ rect.width() / width,rect.height() / height }) * mat);
+			ctx->DrawImage(img2d);
+		}
+		else if (fillMode == 2)
+		{
+			ctx->DrawImage(img2d);
+
+		}
+		else
+		{
+			float wratio = rect.width() / width;
+			float hratio = rect.height() / height;
+			float ratio = min(wratio, hratio);
+			float offx = (rect.width() - width * ratio) / 2;
+			float offy = (rect.height() - height * ratio) / 2;
+			ctx->SetTransform(Matrix3x2F::Scale({ ratio,ratio }) * Matrix3x2F::Translation({ offx,offy }) * mat);
+			ctx->DrawImage(img2d, { 0 }, {});
+
+		}
+
 		ctx->SetTransform(mat);
 
 	}

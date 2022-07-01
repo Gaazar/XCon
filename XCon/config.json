@@ -1,0 +1,69 @@
+{
+    "version": "v0.1b",
+    "h264": "udp://@192.168.1.5:11451",
+    "channels": [{
+            "name": "accelerator",
+            "index": 0,
+            "type": "short"
+        },
+        {
+            "name": "yaw",
+            "index": 1,
+            "type": "short"
+        },
+        {
+            "name": "pitch",
+            "index": 2,
+            "type": "short"
+        },
+        {
+            "name": "roll",
+            "index": 3,
+            "type": "short"
+        }
+    ],
+    "control": [{
+            "name": "toggleAccelecratorLock",
+            "bind": "rs"
+        },
+        {
+            "name": "accelerator",
+            "bind": "lsY",
+            "invert": false,
+            "max": "32767",
+            "min": "0",
+            "type": "integral",
+            "args": {
+                "curve": 8,
+                "addtional": 0
+            }
+        },
+        {
+            "name": "yaw",
+            "bind": "composite",
+            "max": "255",
+            "min": "-255",
+            "compositor": {
+                "+": "rt",
+                "-": "lt"
+            },
+            "type": "direct"
+        },
+        {
+            "name": "pitch",
+            "bind": "rsY",
+            "invert": false,
+            "max": "32767",
+            "min": "-32768",
+            "type": "direct"
+        },
+        {
+            "name": "roll",
+            "bind": "rsX",
+            "invert": false,
+            "max": "32767",
+            "min": "-32768",
+            "type": "direct"
+        }
+    ]
+}

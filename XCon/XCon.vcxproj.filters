@@ -126,6 +126,15 @@
     <ClInclude Include="VideoPlayer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Chart.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XInputCehcker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="View.cpp">
@@ -213,6 +222,12 @@
       <Filter>源文件\Views</Filter>
     </ClCompile>
     <ClCompile Include="VideoPlayer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Chart.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XInputCehcker.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

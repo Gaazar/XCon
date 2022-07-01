@@ -43,6 +43,7 @@ namespace FlameUI
 		void PlayThread();
 
 	public:
+		int fillMode = 0;//0 autofit, 1 strech, 2 flat
 		VideoPlayer(View* parent);
 		void PlayPause();
 		void Source(std::wstring);
