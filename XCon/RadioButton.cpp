@@ -101,6 +101,7 @@ RadioButton::RadioButton(View* parent) :View(parent)
 {
 	checked = pressed = hover = false;
 	layout.box.padding.left = 25 * Theme::LineHeight / 24.f;
+	layout.box.padding.top = 2;
 	size = { 22,22 };
 
 }

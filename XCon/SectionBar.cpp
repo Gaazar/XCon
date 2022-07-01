@@ -96,7 +96,7 @@ void SectionBar::AddOption(const wchar_t* dspl, View* content)
 	l->Margin(Rect(15, 0, 0, 0), true);
 	l->mouseable = true;
 	PostEvent(this, FE_CHILDSIZED, 0, 0);
-	auto hSn = l->AddEventListener(this, &SectionBar::ItemCallback, FE_LBUTTONUP);
+	auto hSn = l->AddEventListener([this, l](Message m, WPARAM w, LPARAM lp) {this->SectionBar::ItemCallback(l, m, w, lp); }, FE_LBUTTONUP);
 
 
 	items.push_back({ l,hSn,content });

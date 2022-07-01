@@ -9,6 +9,7 @@
 #include <d3d11_4.h>
 #include "dcomp.h"
 #include <string>
+#include <functional>
 
 using namespace std;
 //#define _SHOWBORDER
@@ -83,11 +84,7 @@ namespace FlameUI {
 	{
 		Message event;
 		void* object;
-		union
-		{
-			Method method;
-			Function function;
-		};
+		std::function<void(Message, WPARAM, LPARAM)> func;
 	}EventListener;
 	template <typename T>
 	Method MakeListenerCallback(T callback)

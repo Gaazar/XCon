@@ -150,6 +150,7 @@
     <ClInclude Include="ImGui.h" />
     <ClInclude Include="ImGuiCanvas.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputCheckWindow.h" />
     <ClInclude Include="IReflectable.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CheckBox.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="FlameUI.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="InputCheckWindow.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LinearPlacer.cpp" />
     <ClCompile Include="main.cpp" />

@@ -341,10 +341,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 	{
 		if ((*i)->event == msg)
 		{
-			if ((*i)->object)
-				(*i)->method((*i)->object, this, msg, wParam, lParam);
-			else
-				(*i)->function(this, msg, wParam, lParam);
+			(*i)->func(msg, wParam, lParam);
 		}
 	}
 	return ret;
@@ -420,7 +417,7 @@ void View::EndDraw()
 		//std::cout << "Error EndDraw:" << hr << std::endl;
 	}
 
-}
+	}
 
 static UINT32 reversive = 0;
 void View::UpdateTransform()

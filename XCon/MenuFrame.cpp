@@ -14,7 +14,7 @@ MenuFrame::MenuFrame(Frame* parent, POINT rPos, SIZE size) :Frame(parent, size, 
 	titled = false;
 	ignore = 0;
 	//cout << rPos.x << "," << rPos.y << endl;
-	AddEventListener(this, &MenuFrame::OnKillFocus, WM_KILLFOCUS);
+	AddEventListener([this](Message, WPARAM, LPARAM) {this->MenuFrame::OnKillFocus(this, 0, 0, 0); }, WM_KILLFOCUS);
 }
 
 void MenuFrame::OnKillFocus(View* v, Message m, WPARAM w, LPARAM l)

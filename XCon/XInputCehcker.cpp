@@ -16,7 +16,7 @@ LRESULT XInputCehcker::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 void XInputCehcker::Draw()
 {
 	XINPUT_STATE xs;
-	auto r = XInputGetState(0, &xs);
+	auto r = XInputGetState(index, &xs);
 
 	auto ctx = BeginDraw(D2D1::ColorF::ColorF(0, 0));
 	ID2D1SolidColorBrush* br;
@@ -65,6 +65,9 @@ void XInputCehcker::Draw()
 		br->SetColor(ColorF(ColorF::Gray));
 		br->SetOpacity(0.5f);
 		ctx->FillRectangle({ 0,0,360,360 }, br);
+		br->SetColor(ColorF(ColorF::Red));
+		br->SetOpacity(0.5f);
+		ctx->DrawText(L"Î´Á¬½Ó", 4, root->dTextFormat, { 360 / 2 - 60 / 2,360 / 2 - 20 / 2,180 + 30,180 + 10 }, br);
 	}
 
 	//std::cout << xs.Gamepad.sThumbLX << std::endl;

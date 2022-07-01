@@ -28,14 +28,16 @@ using namespace std;
 #include "XInputCehcker.h"
 
 #include "json.hpp"
-
+#include "InputCheckWindow.h"
 
 
 
 int main()
 {
 	configor::wjson j;
-	j[L"version"] = L"v0.1b";
+	wifstream ifs("./config.json");
+	ifs >> j;
+
 	WinMain(0, 0, nullptr, 0);
 
 	return 0;
@@ -61,9 +63,8 @@ int WinMain(HINSTANCE hInstance,
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
-	XInputCehcker xic(&mainFrame);
-	xic.Position({ 50,50 });
 	mainFrame.Show();
+	ShowInputCheckWindow();
 	mainFrame.MainLoop();
 	//libm.Commit();
 	return 0;

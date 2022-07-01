@@ -83,12 +83,10 @@ namespace FlameUI
 		D2D1_POINT_2F Position(bool absolute = false);
 		D2D1_SIZE_F Size();
 		void UpdateAll();
-		template <typename T>
-		HANDLE AddEventListener(void* object, T callback, Message msg)
+		HANDLE AddEventListener(function<void(Message, WPARAM, LPARAM)> callback, Message msg)
 		{
 			EventListener* el = new EventListener();
-			el->object = object;
-			el->method = MakeListenerCallback(callback);
+			el->func = callback;
 			el->event = msg;
 			listeners.push_back(el);
 			return el;
