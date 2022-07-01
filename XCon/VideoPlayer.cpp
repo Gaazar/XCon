@@ -159,9 +159,10 @@ LRESULT VideoPlayer::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == FE_DESTROY)
 	{
-		std::lock_guard<std::mutex> g(mtx);
+		auto r = TerminateThread((HANDLE)playThread.native_handle(), 1);
 		avformat_close_input(&fmtCtx);
 		playThread.detach();
+
 	}
 	return 0;
 }

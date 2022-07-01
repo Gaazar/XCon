@@ -43,10 +43,7 @@
             "max": "32767",
             "min": "0",
             "type": "integral",
-            "args": {
-                "curve": 8,
-                "addtional": 0
-            }
+            "curve": 8
         },
         {
             "name": "yaw",

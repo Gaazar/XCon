@@ -132,10 +132,13 @@
     <ClInclude Include="Input.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="XInputCehcker.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="InputCheckWindow.h">
+    <ClInclude Include="Frames.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -234,6 +237,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InputCheckWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

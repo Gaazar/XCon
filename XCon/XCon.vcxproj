@@ -146,11 +146,12 @@
     <ClInclude Include="Chart.h" />
     <ClInclude Include="D3DViewPort.h" />
     <ClInclude Include="DockProvider.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="IDockProvider.h" />
     <ClInclude Include="ImGui.h" />
     <ClInclude Include="ImGuiCanvas.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="InputCheckWindow.h" />
+    <ClInclude Include="Frames.h" />
     <ClInclude Include="IReflectable.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CheckBox.h" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Chart.cpp" />
+    <ClCompile Include="ControllWindow.cpp" />
     <ClCompile Include="D3DViewPort.cpp" />
     <ClCompile Include="DockProvider.cpp" />
     <ClCompile Include="ImGui.cpp" />

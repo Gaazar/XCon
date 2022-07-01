@@ -605,6 +605,14 @@ Frame::Frame(SIZE wndSize, POINT wndPosition, DWORD extStyles, HWND parent) :dra
 	parenthWnd = parent;
 	SIZE scaledsz{ wndSize.cx * dpiScaleFactor.x ,wndSize.cy * dpiScaleFactor.x };
 	render.direct = true;
+	if (wndPosition.x == CW_USEDEFAULT)
+	{
+		wndPosition.x = (GetSystemMetrics(SM_CXSCREEN) - (scaledsz.cx)) / 2;
+	}
+	if (wndPosition.y == CW_USEDEFAULT)
+	{
+		wndPosition.y = (GetSystemMetrics(SM_CYSCREEN) - (scaledsz.cy)) / 2;
+	}
 	hWnd = create_window(parent, Frame::WndProc, this, scaledsz, wndPosition, extStyles | WS_EX_NOREDIRECTIONBITMAP);
 	//TME(hWnd);
 	D2DCreateContextFromHWND(hWnd, &swapChain, &rootContext);

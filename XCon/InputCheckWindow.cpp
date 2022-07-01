@@ -1,9 +1,10 @@
-#include "InputCheckWindow.h"
+#include "Frames.h"
 
 #include "FlameUI.h"
 #include "XInputCehcker.h"
 #include "RadioButton.h"
 #include "Label.h"
+#include "global.h"
 
 #include <iostream>
 
@@ -11,19 +12,9 @@ using namespace FlameUI;
 
 Frame* frame = nullptr;
 XInputCehcker* xic = nullptr;
-LRESULT cb_rb_changeDevice(View* v, Message m, WPARAM w, LPARAM l)
-{
-	std::cout << "cbrbcd callback. " << v << std::endl;
-	//xic->index = v->value;
-	return 0;
-}
-void test(Function f)
-{
-	f(nullptr, 0, 0, 0);
-}
+
 void ShowInputCheckWindow()
 {
-
 	if (frame)
 	{
 		FlashWindow(frame->GetNative(), FALSE);
@@ -61,8 +52,10 @@ void ShowInputCheckWindow()
 	xic = new XInputCehcker(frame);
 	xic->Position({ 10,430 - 360 });
 
+	frame->AddEventListener([](Message, WPARAM, LPARAM) {
+		frame = nullptr;
+		}, FE_DESTROY);
 
 	frame->Show();
-	frame->MainLoop();
 
 }
