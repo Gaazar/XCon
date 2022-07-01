@@ -545,7 +545,7 @@ animation_id FlameUI::Animate(View* target, time_t duration, WPARAM wParam, LPAR
 }
 
 static LARGE_INTEGER startTime = { 0 };
-time_t FlameUI::GetTime()
+time_t FlameUI::GetTime(double unit)
 {
 	LARGE_INTEGER m_liPerfFreq = { 0 };
 	QueryPerformanceFrequency(&m_liPerfFreq);
@@ -554,7 +554,7 @@ time_t FlameUI::GetTime()
 	if (startTime.QuadPart == 0)
 		startTime = m_liPerfStart;
 
-	return (double)(m_liPerfStart.QuadPart - startTime.QuadPart) / m_liPerfFreq.QuadPart * 1000;
+	return (double)(m_liPerfStart.QuadPart - startTime.QuadPart) / m_liPerfFreq.QuadPart * unit;
 }
 
 void FlameUI::PostEvent(View* hView, Message msg, WPARAM wParam, LPARAM lParam)

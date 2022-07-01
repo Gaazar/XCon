@@ -47,9 +47,7 @@ Image::Image(View* parent, IWICBitmap* source) :Image(parent)
 Image::Image(View* parent) : View(parent)
 {
 	mouseable = false;
-	render.container = true;
 	layout.sizeMode = { SIZE_MODE_CONTENT,SIZE_MODE_CONTENT };
-	render.direct = true;
 }
 void Image::Content(IWICBitmap* source)
 {

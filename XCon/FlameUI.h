@@ -93,7 +93,7 @@ namespace FlameUI
 		return _popMenu(root, menu, MakeCallback<T, MenuCallback>(callback), thiz, manual);
 	}
 
-	time_t GetTime();
+	time_t GetTime(double unit = 1000);
 
 	D2D1_SIZE_F MeasureTextSize(const wchar_t* str, D2D1_SIZE_F border, IDWriteTextFormat* format);
 	void MainThreadDispatch();

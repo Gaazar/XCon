@@ -11,31 +11,37 @@ View::View() :parent(nullptr), disabled(false), keyable(false), mouseable(true),
 {
 	//name = s2ws(typeid(this).raw_name());
 	name = L"New Object";
-	render.grouped = false;
 	render.dirty = true;
-	render.direct = false;
+	this->direct = true;
 	masked = true;
 	localTransform = D2D1::Matrix3x2F::Identity();
 	finalTransform = localTransform;
 	layout.coord = { COORD_POSTIVE,COORD_POSTIVE };
 }
-View::View(View* parent) : View()
+View::View(View* parent, bool direct) : View()
 {
+	this->direct = direct;
 	size = { 32,32 };
 	this->parent = parent;
 	root = parent->root;
 	UpdateTransform();
-	gD2DDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &render.context);
-	render.context->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
-	auto hr = render.context->CreateLayer(&render.clipLayer);
-	if (hr != S_OK)
+	//auto t = GetTime(1000000);
+	if (!direct)
 	{
-		throw new exception();
+		gD2DDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &render.context);
+		render.context->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	}
-	//render.context->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);
+	else
+	{
+		render.context = parent->render.context;
+	}
+	//auto hr = render.context->CreateLayer(&render.clipLayer);
+
 	SendEvent(FE_SIZED, 0, 0);
 	parent->children.push_back(this);
 	parent->SendEvent(FE_CHILD, (WPARAM)this, 4);
+	//std::cout << this << ": " << GetTime(1000000) - t << "us" << std::endl;
+
 
 }
 
@@ -52,7 +58,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		if (render.alpha == 1) break;
 		//render.direct = true;
 		D2D1_MATRIX_3X2_F transform = *(D2D1_MATRIX_3X2_F*)wParam;
-		if (render.grouped)
+		if (!direct)
 		{
 			tempRootCtx = currentRootCtx;
 			currentRootCtx = render.context;
@@ -79,13 +85,15 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 						, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
 						, D2D1::IdentityMatrix()
 						, 1 - render.alpha
-					), render.clipLayer);
+					), nullptr);
 			}
 		}
 		//currentRootCtx->PushAxisAlignedClip({ 0,0,rect.width(),rect.height() }, D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
-		if (render.dirty || render.direct)
+		if (render.dirty || direct)
+		{
 			Draw();
-		if (!render.direct && !render.container)
+		}
+		if (!direct)
 		{
 			D2D1_POINT_2F ofs{ 0,0 };
 			ofs = ofs * transform;
@@ -95,8 +103,8 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			x = ((int)x - x) / dpiScaleFactor.x;
 			y = ((int)y - y) / dpiScaleFactor.y;
 
-			IDXGISurface* ds;
-			auto hr = render.content->QueryInterface(&ds);
+			//IDXGISurface* ds;
+			//auto hr = render.content->QueryInterface(&ds);
 
 			auto sz = render.content->GetSize();
 			//std::cout << "indirect bitblt:" << sz.width << "," << sz.height << std::endl;
@@ -107,7 +115,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			ID2D1SolidColorBrush* br;
 			currentRootCtx->CreateSolidColorBrush(ColorF::ColorF(ColorF::Fuchsia), &br);
 			D2D1_SIZE_F sz;
-			if (render.container)
+			if (direct)
 				sz = { rect.width() * dpiScaleFactor.x,rect.height() * dpiScaleFactor.y };
 			else
 				sz = render.content->GetSize();
@@ -139,7 +147,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		//currentRootCtx->PopAxisAlignedClip();
-		if (render.grouped)
+		if (!direct)
 		{
 			currentRootCtx = tempRootCtx;
 		}
@@ -150,11 +158,9 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		UpdateView();
 		if (layout.layout)
 			layout.layout->Layout(children);
-		if (render.context && !render.container)
+		if (!direct)
 		{
 			EnterCriticalSection(&gThreadAccess);
-			if (render.sharedSurface)
-				render.sharedSurface->Release();
 			if (render.content)
 				render.content->Release();
 			//std::cout<< "content release ref c:" << render.content->Release() << std::endl;
@@ -185,8 +191,8 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			render.context->SetTarget(render.content);
 			render.context->SetDpi(96 * dpiScaleFactor.x, 96 * dpiScaleFactor.y);
 			LeaveCriticalSection(&gThreadAccess);
-			OnEvent(msg, wParam, lParam);
 		}
+		OnEvent(msg, wParam, lParam);
 		if (parent) parent->SendEvent(FE_CHILDSIZED, 0, lParam);
 		for (auto i = children.begin(); i != children.end(); ++i)
 		{
@@ -322,15 +328,18 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		}
 		OnEvent(msg, wParam, lParam);
 		//if (parent)parent->RemoveChild(this);
-		if (render.content)
+		if (!direct)
 		{
-			render.content->Release();
-			render.content = nullptr;
-		}
-		if (render.context)
-		{
-			render.context->Release();
-			render.context = nullptr;
+			if (render.content)
+			{
+				render.content->Release();
+				render.content = nullptr;
+			}
+			if (render.context)
+			{
+				render.context->Release();
+				render.context = nullptr;
+			}
 		}
 		break;
 	}
@@ -350,7 +359,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 ID2D1DeviceContext1* View::BeginDraw(const D2D1_COLOR_F& clear, bool dc)
 {
 	//currentRootCtx->SetTransform(finalTransform);
-	if (render.direct)
+	if (direct)
 	{
 		if (!dc)
 		{
@@ -399,7 +408,7 @@ void View::Parent(View* newParent)
 void View::EndDraw()
 {
 	render.dirty = false;
-	if (render.direct)
+	if (direct)
 	{
 		//EventListener l;
 		//l.method = MakeListenerCallback(&View::TestCallback);
@@ -417,7 +426,7 @@ void View::EndDraw()
 		//std::cout << "Error EndDraw:" << hr << std::endl;
 	}
 
-	}
+}
 
 static UINT32 reversive = 0;
 void View::UpdateTransform()

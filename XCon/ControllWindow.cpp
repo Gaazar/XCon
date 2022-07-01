@@ -207,7 +207,9 @@ void ShowControlWindow()
 	for (auto i : contrs)
 	{
 		ControlSet cs;
+		auto t = GetTime(1000000);
 		o = cs.New(i, sv->Content(), o, 398 - 20 - 15);
+		//std::cout << GetTime(1000000) - t << "us" << std::endl;
 		csets.push_back(cs);
 		o = o + Vector2(0, FlameUI::Theme::LineHeight);
 	}

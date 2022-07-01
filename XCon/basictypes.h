@@ -238,12 +238,8 @@ namespace FlameUI {
 	{
 		float alpha = 0.0f;
 		bool dirty;
-		bool grouped;//grouped = direct:false
-		bool direct;
-		bool container;//container = grouped:false + null context-content
 		ID2D1DeviceContext2* context;
 		ID2D1Bitmap1* content;
-		IDXGISurface* sharedSurface;
 		ID2D1Layer* clipLayer;
 	} RenderData;
 

@@ -298,7 +298,6 @@ LRESULT DockProvider::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 }
 DockProvider::DockProvider(View* parent) :View(parent)
 {
-	render.direct = true;
 	monitor = true;
 	custommousetest = true;
 	Coord(COORD_FILL, COORD_FILL);

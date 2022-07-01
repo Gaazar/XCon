@@ -604,7 +604,6 @@ Frame::Frame(SIZE wndSize, POINT wndPosition, DWORD extStyles, HWND parent) :dra
 	mainDockProvider = nullptr;
 	parenthWnd = parent;
 	SIZE scaledsz{ wndSize.cx * dpiScaleFactor.x ,wndSize.cy * dpiScaleFactor.x };
-	render.direct = true;
 	if (wndPosition.x == CW_USEDEFAULT)
 	{
 		wndPosition.x = (GetSystemMetrics(SM_CXSCREEN) - (scaledsz.cx)) / 2;

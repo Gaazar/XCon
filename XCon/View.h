@@ -19,6 +19,8 @@ namespace FlameUI
 		D2D1_SIZE_F area();
 		vector<EventListener*> listeners;
 		bool disposed;
+		bool direct;
+
 	protected:
 		RootView* root;
 		View* parent;
@@ -51,7 +53,7 @@ namespace FlameUI
 		long long value = 0;
 
 		View();
-		View(View*);
+		View(View*, bool direct = true);
 
 		RootView* Root();
 		View* Parent();

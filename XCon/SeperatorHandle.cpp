@@ -90,7 +90,6 @@ LRESULT SeperatorHandle::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 
 SeperatorHandle::SeperatorHandle(View* parent, bool horizontal) :View(parent)
 {
-	render.direct = true;
 	this->horizontal = horizontal;
 	if (horizontal)
 	{
