@@ -1,6 +1,9 @@
 #pragma once
 #include "View.h"
 #include "D3DViewPort.h"
+#include <thread>
+#include <string>
+#include <mutex>
 
 extern "C" {
 #include "libavcodec/avcodec.h"
@@ -28,11 +31,16 @@ namespace FlameUI
 		ID2D1ImageSource* img2d = nullptr;
 		//ID3D11Texture2D* texRt;
 		HANDLE sharedHandle;
+		std::thread playThread;
+		std::wstring url;
+		std::mutex mtx;
+
 
 		AVFrame* NextFrame();
 		void Animation(float progress, int p1, int p2) override;
 		void RenderFrame();
 		void DisplayFrame();
+		void PlayThread();
 
 	public:
 		VideoPlayer(View* parent);

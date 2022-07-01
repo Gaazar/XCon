@@ -51,8 +51,9 @@ int WinMain(HINSTANCE hInstance,
 	VideoPlayer vp(&mainFrame);
 	vp.Size({ 1024,576 });
 	vp.Position({ 10,40 });
+	vp.Source(L"udp://@192.168.1.5:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
-	vp.Source(L"D:\\Videos\\vnv.mp4");
+	//vp.Source(L"D:\\Videos\\vnv.mp4");
 	mainFrame.Show();
 	mainFrame.MainLoop();
 	//libm.Commit();

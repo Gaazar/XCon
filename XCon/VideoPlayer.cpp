@@ -14,24 +14,22 @@ using namespace D2D1;
 
 VideoPlayer::VideoPlayer(View* parent) :View(parent)
 {
-	timer = Animate(14, 0, 0);
-
+	timer = Animate(10000, 0, 0);
 }
 
 void VideoPlayer::Animation(float progress, int p1, int p2)
 {
 	if (progress == 1)
 	{
-		RenderFrame();
-		DisplayFrame();
-		UpdateView();
-		Animate(2, 0, 0, timer);
-
+		//avformat_close_input(&fmtCtx);
+		//Animate(100, 0, 0, timer);
 	}
+
 }
 void VideoPlayer::RenderFrame()
 {
 	auto frame = NextFrame();
+	if (frame == nullptr) return;
 
 	ID3D11Texture2D* t_frame = (ID3D11Texture2D*)frame->data[0];
 	int t_index = (int)frame->data[1];
@@ -53,7 +51,7 @@ void VideoPlayer::RenderFrame()
 	av_frame_free(&frame);
 
 }
-void VideoPlayer::DisplayFrame() 
+void VideoPlayer::DisplayFrame()
 {
 	IDXGISurface* dxgiSurface;
 	auto hr = tex2d->QueryInterface(&dxgiSurface);
@@ -67,10 +65,12 @@ void VideoPlayer::PlayPause()
 {
 
 }
-void VideoPlayer::Source(std::wstring url)
+void VideoPlayer::PlayThread()
 {
 	avformat_open_input(&fmtCtx, ws2s(url).c_str(), nullptr, nullptr);
 	avformat_find_stream_info(fmtCtx, nullptr);
+
+
 
 	for (int i = 0; i < fmtCtx->nb_streams; i++) {
 		AVStream* stream = fmtCtx->streams[i];
@@ -106,23 +106,32 @@ void VideoPlayer::Source(std::wstring url)
 	tex2d->QueryInterface(IID_PPV_ARGS(&dxgiShareTexture));
 	dxgiShareTexture->GetSharedHandle(&sharedHandle);
 
-	/*tdesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	tdesc.Usage = D3D11_USAGE_DEFAULT;
-	tdesc.MiscFlags = 0;
-	tdesc.ArraySize = 1;
-	tdesc.MipLevels = 1;
-	tdesc.SampleDesc = { 1, 0 };
-	tdesc.Height = height;
-	tdesc.Width = width;
-	tdesc.BindFlags = D3D11_BIND_RENDER_TARGET;
-	if (tex2d) tex2d->Release();
-	gD3D11Device->CreateTexture2D(&tdesc, nullptr, &texRt);*/
+	while (fmtCtx)
+	{
+		std::lock_guard<std::mutex> g(mtx);
+		if (!fmtCtx) break;
+		RenderFrame();
+		DisplayFrame();
+		UpdateView();
+		//std::this_thread::sleep_for(std::chrono::milliseconds(16));
+	}
+
+}
+void VideoPlayer::Source(std::wstring url)
+{
+	this->url = url;
+	std::lock_guard<std::mutex> g(mtx);
+	avformat_close_input(&fmtCtx);
+	playThread = std::thread([this]()
+		{
+			this->PlayThread();
+		});
 
 }
 
 AVFrame* VideoPlayer::NextFrame()
 {
-	while (1) {
+	while (fmtCtx) {
 		AVPacket* packet = av_packet_alloc();
 		int ret = av_read_frame(fmtCtx, packet);
 		if (ret == 0 && packet->stream_index == videoStreamIndex) {
@@ -148,6 +157,12 @@ AVFrame* VideoPlayer::NextFrame()
 
 LRESULT VideoPlayer::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 {
+	if (msg == FE_DESTROY)
+	{
+		std::lock_guard<std::mutex> g(mtx);
+		avformat_close_input(&fmtCtx);
+		playThread.detach();
+	}
 	return 0;
 }
 

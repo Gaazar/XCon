@@ -69,7 +69,7 @@ D2D1_COLOR_F Theme::Color::Theme = ColorF::ColorF(ColorF::DeepSkyBlue);
 //D2D1_COLOR_F Theme::Color::Background = ColorF::ColorF(ColorF::White);
 //D2D1_COLOR_F Theme::Color::Theme = ColorF::ColorF(ColorF::DeepSkyBlue);
 
-bool Debug::showBorder = true;
+bool Debug::showBorder = false;
 View* Debug::tempView = nullptr;
 //For complex apps
 float Theme::BasicTextSize = 13.0f; //15
