@@ -26,6 +26,7 @@ using namespace std;
 #include "ImGuiCanvas.h"
 #include "VideoPlayer.h"
 #include "XInputCehcker.h"
+#include "Chart.h"
 
 #include "json.hpp"
 #include "Frames.h"
@@ -68,13 +69,17 @@ int WinMain(HINSTANCE hInstance,
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
+	Chart crt(&mainFrame);
+	crt.Size({ 800,350 });
+	crt.Position({ 20,100 });
+
 	mainFrame.AddEventListener([](Message, WPARAM, LPARAM) {
 		exit(0);
 		}, FE_DESTROY);
 	mainFrame.Show();
 
-	ShowInputCheckWindow();
-	ShowControlWindow();
+	//ShowInputCheckWindow();
+	//ShowControlWindow();
 	mainFrame.MainLoop();
 	//libm.Commit();
 	return 0;

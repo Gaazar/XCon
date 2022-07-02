@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="basictypes.h" />
     <ClInclude Include="Chart.h" />
+    <ClInclude Include="ControlPack.h" />
     <ClInclude Include="D3DViewPort.h" />
     <ClInclude Include="DockProvider.h" />
     <ClInclude Include="global.h" />
@@ -214,6 +215,7 @@
     </ClCompile>
     <ClCompile Include="ThreeList.cpp" />
     <ClCompile Include="Toggle.cpp" />
+    <ClCompile Include="Transmission.cpp" />
     <ClCompile Include="VideoPlayer.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="XInputCehcker.cpp" />

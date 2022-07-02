@@ -7,6 +7,10 @@
 #include "Menu.h"
 #include <functional>
 
+#include <iostream>
+#include <string>
+#include <sstream>
+
 //#define _SHOWBORDER
 
 namespace FlameUI
@@ -116,6 +120,14 @@ namespace FlameUI
 	void ThemeUpdate();
 
 	ID2D1Bitmap* LoadBitmapPath(wstring path);
+
+	template<typename T>
+	std::wstring toStringW(T v)
+	{
+		std::wostringstream oss;
+		oss << v;
+		return oss.str();
+	}
 }
 
 
