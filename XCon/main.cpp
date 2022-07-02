@@ -55,6 +55,13 @@ int WinMain(HINSTANCE hInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+	DWORD ctid;
+	WORD sockVersion = MAKEWORD(2, 2);
+	WSADATA data;
+	if (WSAStartup(sockVersion, &data) != 0)
+	{
+		return -55;
+	}
 
 	Initiate();
 	//Test();
@@ -78,9 +85,9 @@ int WinMain(HINSTANCE hInstance,
 		}, FE_DESTROY);
 	mainFrame.Show();
 
-	//ShowInputCheckWindow();
-	//ShowControlWindow();
+	ShowInputCheckWindow();
+	ShowControlWindow();
 	mainFrame.MainLoop();
-	//libm.Commit();
+	WSACleanup();
 	return 0;
 }

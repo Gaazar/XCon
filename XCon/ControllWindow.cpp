@@ -231,12 +231,6 @@ void ShowControlWindow()
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
 	new Label(btn, L"保存");
 
-	btn = new Button(bpnl);
-	btn->Padding({ 10,5,10,5 });
-	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
-	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-	new Label(btn, L"应用");
-
 
 	wjson contrs = configs[L"control"];
 	Point o = { 0,0 };
