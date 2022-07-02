@@ -20,11 +20,11 @@ View::View() :parent(nullptr), disabled(false), keyable(false), mouseable(true),
 }
 View::View(View* parent, bool direct) : View()
 {
+	init = true;
 	this->direct = direct;
 	size = { 32,32 };
 	this->parent = parent;
 	root = parent->root;
-	UpdateTransform();
 	//auto t = GetTime(1000000);
 	if (!direct)
 	{
@@ -36,10 +36,9 @@ View::View(View* parent, bool direct) : View()
 		render.context = parent->render.context;
 	}
 	//auto hr = render.context->CreateLayer(&render.clipLayer);
-
-	SendEvent(FE_SIZED, 0, 0);
 	parent->children.push_back(this);
-	parent->SendEvent(FE_CHILD, (WPARAM)this, 4);
+	SendEvent(FE_SIZED, 0, 0);
+	//parent->SendEvent(FE_CHILD, (WPARAM)this, 4);
 	//std::cout << this << ": " << GetTime(1000000) - t << "us" << std::endl;
 
 
@@ -55,6 +54,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 	{
 	case FE_PAINT:
 	{
+		init = false;
 		if (render.alpha == 1) break;
 		//render.direct = true;
 		D2D1_MATRIX_3X2_F transform = *(D2D1_MATRIX_3X2_F*)wParam;
@@ -193,7 +193,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			LeaveCriticalSection(&gThreadAccess);
 		}
 		OnEvent(msg, wParam, lParam);
-		if (parent) parent->SendEvent(FE_CHILDSIZED, 0, lParam);
+		if (!init && parent) parent->SendEvent(FE_CHILDSIZED, 0, lParam);
 		for (auto i = children.begin(); i != children.end(); ++i)
 		{
 			(*i)->SendEvent(FE_PARENTSIZED, wParam, lParam);

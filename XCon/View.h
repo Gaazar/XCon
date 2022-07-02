@@ -20,6 +20,7 @@ namespace FlameUI
 		vector<EventListener*> listeners;
 		bool disposed;
 		bool direct;
+		bool init;
 
 	protected:
 		RootView* root;

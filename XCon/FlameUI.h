@@ -101,7 +101,7 @@ namespace FlameUI
 	void _removeDockProvider(DockProvider* dp);
 	void _rootDragDispatch(DockProvider* dp, Point mousePos, Message msg);
 
-	void RunInMainThread(std::function<void(void)> func);
+	void RunInMainThread(std::function<void(void)> func,bool delay = false);
 	void RunInUIThread(std::function<void(void)> func);
 	FlameUI::Rect CalcViewRectOnScreen(View* v);
 	template <typename T>

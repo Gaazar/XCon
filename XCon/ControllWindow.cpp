@@ -1,4 +1,4 @@
-#include "Frames.h"
+ï»¿#include "Frames.h"
 
 #include "FlameUI.h"
 #include "TextEditor.h"
@@ -18,18 +18,18 @@ using namespace configor;
 Frame* cframe = nullptr;
 std::map<std::wstring, std::wstring> i18ndic
 {
-	{L"accelerator",L"ÓÍÃÅ"},
-	{L"yaw",L"Æ«º½"},
-	{L"pitch",L"¸©Ñö"},
-	{L"roll",L"¹öÍ²"},
-	{L"toggleAccelecratorLock",L"ÓÍÃÅËø¶¨"},
-	{L"max",L"×î´óÖµ"},
-	{L"min",L"×îÐ¡Öµ"},
-	{L"direct",L"Ö±½Ó"},
-	{L"integral",L"»ý·Ö"},
-	{L"bind",L"°´¼ü°ó¶¨"},
-	{L"type",L"ÀàÐÍ"},
-	{L"record",L"Â¼ÖÆ"},
+	{L"accelerator",L"æ²¹é—¨"},
+	{L"yaw",L"åèˆª"},
+	{L"pitch",L"ä¿¯ä»°"},
+	{L"roll",L"æ»šç­’"},
+	{L"toggleAccelecratorLock",L"æ²¹é—¨é”å®š"},
+	{L"max",L"æœ€å¤§å€¼"},
+	{L"min",L"æœ€å°å€¼"},
+	{L"direct",L"ç›´æŽ¥"},
+	{L"integral",L"ç§¯åˆ†"},
+	{L"bind",L"æŒ‰é”®ç»‘å®š"},
+	{L"type",L"ç±»åž‹"},
+	{L"record",L"å½•åˆ¶"},
 
 };
 struct ControlSet
@@ -46,111 +46,141 @@ struct ControlSet
 		TextEditor* negative;
 	} compositor;
 
-	Point New(wjson j, View* p, Point o, float w)
+	Button* btnCloaps;
+	Label* lCloaps;
+
+	Point New(wjson j, View* p, float w)
 	{
 		float clh = FlameUI::Theme::LineHeight * 1.3f;
 		float lh = clh + FlameUI::Theme::LinePadding;
+		Panel* pnl = new Panel(p);
+		pnl->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_NONE);
+		pnl->Size({ 0,lh });
+
 		Label* lb;
 		TextEditor* te;
 
 		std::wstring ws;
 
-		te = new TextEditor(p);
-		lb = new Label(p, L"Ãû³Æ");
-		lb->Position(o);
-		te->Position(o + Vector2(70, 0));
+		Point o(0, 0);
+
+		btnCloaps = new Button(pnl);
+		btnCloaps->Position(o);
+		btnCloaps->Size({ 20,20 });
+		//btnCloaps->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		lCloaps = new Label(btnCloaps, L"ðŸž‚");
+		lCloaps->Coord(COORD_CENTER, COORD_CENTER);
+		btnCloaps->AddEventListener([lh, pnl, this](Message, WPARAM, LPARAM)
+			{
+				if (lCloaps->Content() == L"ðŸž‚")
+				{
+					lCloaps->Content(L"ðŸžƒ");
+					pnl->Size({ 0,lh * 10 });
+				}
+				else
+				{
+					lCloaps->Content(L"ðŸž‚");
+					pnl->Size({ 0,lh });
+				}
+			}, FE_LBUTTONUP);
+
+
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"åç§°");
+		lb->Position(o + Vector2(24, 0));
+		te->Position(o + Vector2(76, 0));
 		te->Multiline(false);
-		te->Size({ w - 75,clh });
+		te->Size({ w - 80,clh });
 		if (j[L"name"].is_string())
 			te->Content(j[L"name"]);
 		name = te;
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"°´¼ü°ó¶¨");
-		lb->Position(o);
-		te->Position(o + Vector2(70, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"æŒ‰é”®ç»‘å®š");
+		lb->Position(o + Vector2(24, 0));
+		te->Position(o + Vector2(76, 0));
 		te->Multiline(false);
-		te->Size({ w - 75,clh });
+		te->Size({ w - 80,clh });
 		if (j[L"bind"].is_string())
 			te->Content(j[L"bind"]);
 		bind = te;
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"×î´óÖµ");
-		lb->Position(o);
-		te->Position(o + Vector2(70, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"æœ€å¤§å€¼");
+		lb->Position(o + Vector2(24, 0));
+		te->Position(o + Vector2(76, 0));
 		te->Multiline(false);
-		te->Size({ w - 75,clh });
+		te->Size({ w - 80,clh });
 		if (j[L"max"].is_string())
 			te->Content(j[L"max"]);
 		max = te;
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"×îÐ¡Öµ");
-		lb->Position(o);
-		te->Position(o + Vector2(70, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"æœ€å°å€¼");
+		lb->Position(o + Vector2(24, 0));
+		te->Position(o + Vector2(76, 0));
 		te->Multiline(false);
-		te->Size({ w - 75,clh });
+		te->Size({ w - 80,clh });
 		if (j[L"min"].is_string())
 			te->Content(j[L"min"]);
 		min = te;
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"ÀàÐÍ");
-		lb->Position(o);
-		te->Position(o + Vector2(70, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"ç±»åž‹");
+		lb->Position(o + Vector2(24, 0));
+		te->Position(o + Vector2(76, 0));
 		te->Multiline(false);
-		te->Size({ w - 75,clh });
+		te->Size({ w - 80,clh });
 		if (j[L"type"].is_string())
 			te->Content(j[L"type"]);
 		type = te;
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"ÇúÏß");
-		lb->Position(o);
-		te->Position(o + Vector2(70, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"æ›²çº¿");
+		lb->Position(o + Vector2(24, 0));
+		te->Position(o + Vector2(76, 0));
 		te->Multiline(false);
-		te->Size({ w - 75,clh });
+		te->Size({ w - 80,clh });
 		if (j[L"curve"].is_string())
 			te->Content(j[L"curve"]);
 		curve = te;
 
 		o = o + Vector2(0, lh);
-		lb = new Label(p, L"·´×ª");
-		lb->Position(o);
-		CheckBox* cb = new CheckBox(p);
-		cb->Position(o + Vector2(70, 0));
+		lb = new Label(pnl, L"åè½¬");
+		lb->Position(o + Vector2(24, 0));
+		CheckBox* cb = new CheckBox(pnl);
+		cb->Position(o + Vector2(76, 0));
 		invert = cb;
 
 		o = o + Vector2(0, clh);
-		lb = new Label(p, L"ºÏ³É");
-		lb->Position(o);
+		lb = new Label(pnl, L"åˆæˆ");
+		lb->Position(o + Vector2(24, 0));
 
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"+");
-		lb->Position(o + Vector2(30, 0));
-		te->Position(o + Vector2(100, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"+");
+		lb->Position(o + Vector2(24 + 24, 0));
+		te->Position(o + Vector2(76 + 24, 0));
 		te->Multiline(false);
-		te->Size({ w - 105,clh });
+		te->Size({ w - 80 - 24,clh });
 		if (j[L"compositor"].is_object() && j[L"compositor"][L"+"].is_string())
 			te->Content(j[L"compositor"][L"+"]);
 		compositor.postive = te;
 
 
 		o = o + Vector2(0, lh);
-		te = new TextEditor(p);
-		lb = new Label(p, L"-");
-		lb->Position(o + Vector2(30, 0));
-		te->Position(o + Vector2(100, 0));
+		te = new TextEditor(pnl);
+		lb = new Label(pnl, L"-");
+		lb->Position(o + Vector2(24 + 24, 0));
+		te->Position(o + Vector2(76 + 24, 0));
 		te->Multiline(false);
-		te->Size({ w - 105,clh });
+		te->Size({ w - 80 - 24,clh });
 		if (j[L"compositor"].is_object() && j[L"compositor"][L"-"].is_string())
 			te->Content(j[L"compositor"][L"-"]);
 		compositor.negative = te;
@@ -162,7 +192,7 @@ struct ControlSet
 
 };
 
-std::vector<ControlSet> csets;
+std::vector<ControlSet*> csets;
 void ShowControlWindow()
 {
 	if (cframe)
@@ -171,7 +201,7 @@ void ShowControlWindow()
 		return;
 	}
 	cframe = new Frame({ 400,500 });
-	cframe->Title(L"°´¼ü°ó¶¨");
+	cframe->Title(L"æŒ‰é”®ç»‘å®š");
 	cframe->sizable = false;
 	cframe->maximal = false;
 
@@ -181,6 +211,7 @@ void ShowControlWindow()
 	sv->Coord(COORD_FILL, COORD_FILL);
 
 	sv->Content()->Padding({ 10,0,10,0 }, true);
+	//
 
 	Panel* bpnl = new Panel(cframe);
 	bpnl->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
@@ -192,31 +223,31 @@ void ShowControlWindow()
 	btn->Padding({ 10,5,10,5 });
 	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-	new Label(btn, L"È¡Ïû");
+	new Label(btn, L"å–æ¶ˆ");
 
 	btn = new Button(bpnl);
 	btn->Padding({ 10,5,10,5 });
 	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-	new Label(btn, L"±£´æ");
+	new Label(btn, L"ä¿å­˜");
 
 	btn = new Button(bpnl);
 	btn->Padding({ 10,5,10,5 });
 	btn->Coord(COORD_NEGATIVE, COORD_NEGATIVE);
 	btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-	new Label(btn, L"Ó¦ÓÃ");
+	new Label(btn, L"åº”ç”¨");
 
 
 	wjson contrs = configs[L"control"];
 	Point o = { 0,0 };
+	sv->Content()->Layouter(new LinearPlacer(DIRECTION_VERTICAL, 8));
 	for (auto i : contrs)
 	{
-		ControlSet cs;
+		ControlSet* cs = new ControlSet();
 		auto t = GetTime(1000000);
-		o = cs.New(i, sv->Content(), o, 398 - 20 - 15);
+		cs->New(i, sv->Content(), 398 - 20 - 15);
 		//std::cout << GetTime(1000000) - t << "us" << std::endl;
 		csets.push_back(cs);
-		o = o + Vector2(0, FlameUI::Theme::LineHeight);
 	}
 
 	cframe->AddEventListener([](Message, WPARAM, LPARAM) {

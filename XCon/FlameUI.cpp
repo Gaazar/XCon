@@ -697,9 +697,9 @@ void FlameUI::_rootDragDispatch(DockProvider* rv, Point mousePos, Message msg)
 
 }
 
-void FlameUI::RunInMainThread(std::function<void(void)> func)
+void FlameUI::RunInMainThread(std::function<void(void)> func,bool delay)
 {
-	if (GetCurrentThreadId() == MainThreadId)
+	if (GetCurrentThreadId() == MainThreadId && !delay)
 	{
 		func();
 	}
