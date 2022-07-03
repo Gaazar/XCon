@@ -48,9 +48,6 @@ void Chart::Draw()
 
 Chart::Chart(View* parent) :View(parent)
 {
-	srand((unsigned int)this);
-	JoinSeries(L"Yaw", ColorF(ColorF::Green));
-	JoinSeries(L"Pitch", ColorF(ColorF::Blue));
 	//FlameUI::Debug::showBorder = true;
 	//aid = Animate(16, 0, 0);
 }

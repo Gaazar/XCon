@@ -178,6 +178,7 @@
     <ClInclude Include="TextEditor.h" />
     <ClInclude Include="ThreeList.h" />
     <ClInclude Include="Toggle.h" />
+    <ClInclude Include="Transmission.h" />
     <ClInclude Include="VideoPlayer.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="XInputCehcker.h" />

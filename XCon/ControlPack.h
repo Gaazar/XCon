@@ -8,7 +8,7 @@ struct ControlPack
 	short roll;
 };
 
-struct Feedbackpack
+struct FeedbackPack
 {
 	unsigned int id;
 	struct
@@ -39,10 +39,4 @@ struct Feedbackpack
 		float velocity;
 	} remote;
 
-	void sz()
-	{
-		sizeof Feedbackpack;
-	}
 };
-
-extern ControlPack input;

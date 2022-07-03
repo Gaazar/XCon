@@ -14,6 +14,8 @@
 #include <iostream>
 #include <set>
 #include <sstream>
+#include <thread>
+
 using namespace FlameUI;
 using namespace std;
 
@@ -27,7 +29,9 @@ using namespace std;
 #include "VideoPlayer.h"
 #include "XInputCehcker.h"
 #include "Chart.h"
+#include "XInput.h"
 
+#include "Transmission.h"
 #include "json.hpp"
 #include "Frames.h"
 #include "global.h"
@@ -50,19 +54,40 @@ void SaveConfigs()
 	ofs << configs;
 
 }
+
+bool cexit = false;
+Chart* tchart = nullptr;
+void Controls()
+{
+	while (!cexit)
+	{
+		XINPUT_STATE s;
+		if (XInputGetState(0, &s) == ERROR_SUCCESS)
+		{
+			ControlPack cp;
+			cp.accelerator = -s.Gamepad.sThumbLY - 1;
+			cp.yaw = -s.Gamepad.bLeftTrigger + s.Gamepad.bRightTrigger;
+			cp.pitch = s.Gamepad.sThumbRX;
+			cp.roll = -s.Gamepad.sThumbRY - 1;
+			RunInUIThread([cp]()
+				{
+					tchart->JoinValue(0, cp.yaw / 255.f);
+					tchart->JoinValue(1, cp.pitch / 32768.f);
+					tchart->JoinValue(2, cp.roll / 32768.f);
+					tchart->JoinValue(3, cp.accelerator / 32768.f);
+				});
+			SendControl(cp, "192.168.1.7", 10485);
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(8));
+	}
+}
+
 int WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
-	DWORD ctid;
-	WORD sockVersion = MAKEWORD(2, 2);
-	WSADATA data;
-	if (WSAStartup(sockVersion, &data) != 0)
-	{
-		return -55;
-	}
-
+	InitTransmission(10058);
 	Initiate();
 	//Test();
 	//return 0;
@@ -77,17 +102,31 @@ int WinMain(HINSTANCE hInstance,
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
 	Chart crt(&mainFrame);
+	tchart = &crt;
 	crt.Size({ 800,350 });
 	crt.Position({ 20,100 });
+	crt.JoinSeries(L"Yaw", ColorF(ColorF::Red));
+	crt.JoinSeries(L"Pitch", ColorF(ColorF::Green));
+	crt.JoinSeries(L"Roll", ColorF(ColorF::Blue));
+	crt.JoinSeries(L"Accelerator", ColorF(ColorF::Yellow));
+
+	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
 
 	mainFrame.AddEventListener([](Message, WPARAM, LPARAM) {
+
+		cexit = true;
 		exit(0);
 		}, FE_DESTROY);
 	mainFrame.Show();
 
+
 	ShowInputCheckWindow();
 	ShowControlWindow();
 	mainFrame.MainLoop();
-	WSACleanup();
 	return 0;
+}
+
+void OnRecvTransmisson(int len, char* buff)
+{
+
 }
