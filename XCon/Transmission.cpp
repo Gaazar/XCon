@@ -61,9 +61,10 @@ void ControlRecv(void(*cb)(int, char*))
 {
 	SOCKADDR_IN remote;
 	char buffer[1536];
+	int rlen = sizeof(remote);
 	while (true)
 	{
-		int len = recvfrom(sk_control, buffer, sizeof buffer, 0, (SOCKADDR*)&remote, nullptr);
+		int len = recvfrom(sk_control, buffer, sizeof buffer, 0, (SOCKADDR*)&remote, &rlen);
 		if (len > 0)
 		{
 			cb(len, buffer);

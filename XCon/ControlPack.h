@@ -36,7 +36,9 @@ struct FeedbackPack
 			float x, y, z, w;
 		} attitude;
 
-		float velocity;
+		struct {
+			float x, y, z;
+		} velocity;
 	} remote;
 
 };

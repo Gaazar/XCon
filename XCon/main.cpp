@@ -57,6 +57,11 @@ void SaveConfigs()
 
 bool cexit = false;
 Chart* tchart = nullptr;
+
+Chart* crtaccl;
+Chart* crtgyro;
+Chart* crtmagt;
+
 void Controls()
 {
 	while (!cexit)
@@ -81,7 +86,27 @@ void Controls()
 		std::this_thread::sleep_for(std::chrono::milliseconds(8));
 	}
 }
+void OnRecvTransmisson(int len, char* buff)
+{
+	FeedbackPack fp;
+	memcpy(&fp, buff, len);
+	RunInUIThread([fp]()
+		{
+			crtaccl->JoinValue(0, fp.remote.attitude.x);
+			crtaccl->JoinValue(1, fp.remote.attitude.y);
+			crtaccl->JoinValue(2, fp.remote.attitude.z);
 
+			crtgyro->JoinValue(0, fp.remote.position.x);
+			crtgyro->JoinValue(1, fp.remote.position.y);
+			crtgyro->JoinValue(2, fp.remote.position.z);
+
+			crtmagt->JoinValue(0, fp.remote.velocity.x);
+			crtmagt->JoinValue(1, fp.remote.velocity.y);
+			crtmagt->JoinValue(2, fp.remote.velocity.z);
+
+		});
+
+}
 int WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
@@ -97,7 +122,7 @@ int WinMain(HINSTANCE hInstance,
 	VideoPlayer vp(&mainFrame);
 	vp.Size({ 1260,576 });
 	vp.Position({ 10,40 });
-	vp.Source(L"udp://@192.168.1.5:11451");
+	vp.Source(L"udp://@239.0.0.1:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
@@ -110,23 +135,45 @@ int WinMain(HINSTANCE hInstance,
 	crt.JoinSeries(L"Roll", ColorF(ColorF::Blue));
 	crt.JoinSeries(L"Accelerator", ColorF(ColorF::Yellow));
 
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
-
 	mainFrame.AddEventListener([](Message, WPARAM, LPARAM) {
 
 		cexit = true;
 		exit(0);
 		}, FE_DESTROY);
 	mainFrame.Show();
+	Frame fbFrame({ 1000, 820 });
+	Chart crtacc(&fbFrame);
+	crtacc.Size({ 960,250 });
+	crtacc.Position({ 20,40 });
+	crtacc.JoinSeries(L"Accl X", ColorF(ColorF::Red));
+	crtacc.JoinSeries(L"Accl Y", ColorF(ColorF::Green));
+	crtacc.JoinSeries(L"Accl Z", ColorF(ColorF::Blue));
+	crtaccl = &crtacc;
 
+	Chart crtgry(&fbFrame);
+	crtgry.Size({ 960,250 });
+	crtgry.Position({ 20,40 + 250 + 10 });
+	crtgry.JoinSeries(L"Gyro X", ColorF(ColorF::Red));
+	crtgry.JoinSeries(L"Gyro Y", ColorF(ColorF::Green));
+	crtgry.JoinSeries(L"Gyro Z", ColorF(ColorF::Blue));
+	crtgyro = &crtgry;
 
+	Chart crtmag(&fbFrame);
+	crtmag.Size({ 960,250 });
+	crtmag.Position({ 20,40 + 260 + 260 });
+	crtmag.JoinSeries(L"Magt X", ColorF(ColorF::Red));
+	crtmag.JoinSeries(L"Magt Y", ColorF(ColorF::Green));
+	crtmag.JoinSeries(L"Magt Z", ColorF(ColorF::Blue));
+	crtmagt = &crtmag;
+
+	fbFrame.Show();
 	ShowInputCheckWindow();
 	ShowControlWindow();
+
+	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
+	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);
+
 	mainFrame.MainLoop();
 	return 0;
 }
 
-void OnRecvTransmisson(int len, char* buff)
-{
-
-}
