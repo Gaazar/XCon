@@ -81,28 +81,28 @@ void Controls()
 					tchart->JoinValue(2, cp.roll / 32768.f);
 					tchart->JoinValue(3, cp.accelerator / 32768.f);
 				});
-			SendControl(cp, "192.168.1.7", 10485);
+			SendPacket(cp, "192.168.1.7", 10485);
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(8));
 	}
 }
 void OnRecvTransmisson(int len, char* buff)
 {
-	FeedbackPack fp;
-	memcpy(&fp, buff, len);
-	RunInUIThread([fp]()
+	Packet p;
+	memcpy(&p, buff, len);
+	RunInUIThread([p]()
 		{
-			crtaccl->JoinValue(0, fp.remote.attitude.x);
-			crtaccl->JoinValue(1, fp.remote.attitude.y);
-			crtaccl->JoinValue(2, fp.remote.attitude.z);
+			crtaccl->JoinValue(0, p.feedback.gyro.x);
+			crtaccl->JoinValue(1, p.feedback.gyro.y);
+			crtaccl->JoinValue(2, p.feedback.gyro.z);
 
-			crtgyro->JoinValue(0, fp.remote.position.x);
-			crtgyro->JoinValue(1, fp.remote.position.y);
-			crtgyro->JoinValue(2, fp.remote.position.z);
+			crtgyro->JoinValue(0, p.feedback.gyro.yaw);
+			crtgyro->JoinValue(1, p.feedback.gyro.pitch);
+			crtgyro->JoinValue(2, p.feedback.gyro.roll);
 
-			crtmagt->JoinValue(0, fp.remote.velocity.x);
-			crtmagt->JoinValue(1, fp.remote.velocity.y);
-			crtmagt->JoinValue(2, fp.remote.velocity.z);
+			crtmagt->JoinValue(0, p.feedback.magnetometer.x);
+			crtmagt->JoinValue(1, p.feedback.magnetometer.y);
+			crtmagt->JoinValue(2, p.feedback.magnetometer.z);
 
 		});
 

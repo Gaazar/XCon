@@ -149,6 +149,7 @@
     <ClInclude Include="ControlPack.h" />
     <ClInclude Include="D3DViewPort.h" />
     <ClInclude Include="DockProvider.h" />
+    <ClInclude Include="Dropdown.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="IDockProvider.h" />
     <ClInclude Include="ImGui.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="ControllWindow.cpp" />
     <ClCompile Include="D3DViewPort.cpp" />
     <ClCompile Include="DockProvider.cpp" />
+    <ClCompile Include="Dropdown.cpp" />
     <ClCompile Include="ImGui.cpp" />
     <ClCompile Include="ImGuiCanvas.cpp" />
     <ClCompile Include="Button.cpp" />

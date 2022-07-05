@@ -144,6 +144,9 @@
     <ClInclude Include="Transmission.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Dropdown.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="View.cpp">
@@ -246,6 +249,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Transmission.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Dropdown.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

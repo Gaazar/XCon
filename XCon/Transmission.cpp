@@ -39,17 +39,8 @@ void CleanTransmission()
 	WSACleanup();
 
 }
-void SendControl(ControlPack cp, std::string raddr, unsigned short port)
-{
-	SOCKADDR_IN addr;
-	addr.sin_addr.S_un.S_addr = inet_addr(raddr.c_str());
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(port);
-	sendto(sk_control, (char*)&cp, sizeof cp, 0, (SOCKADDR*)&addr, sizeof addr);
 
-
-}
-void SendFeedback(FeedbackPack pk, std::string raddr, unsigned short port)
+void SendPacket(Packet pk, std::string raddr, unsigned short port)
 {
 	SOCKADDR_IN addr;
 	addr.sin_addr.S_un.S_addr = inet_addr(raddr.c_str());
