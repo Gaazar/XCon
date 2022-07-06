@@ -251,7 +251,7 @@ namespace FlameUI {
 	};
 	enum COORD
 	{
-		COORD_POSTIVE,
+		COORD_POSITIVE,
 		COORD_NEGATIVE,
 		COORD_FILL,
 		COORD_CENTER,

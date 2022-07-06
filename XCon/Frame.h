@@ -52,6 +52,7 @@ namespace FlameUI
 			bool maximized;
 		} flags;
 		wstring title = L"Frame";
+		bool inited = false;
 
 	public:
 		HIMC hImc;
@@ -68,6 +69,7 @@ namespace FlameUI
 		//~Frame();
 		HWND GetNative() { return hWnd; }
 		void Show();
+		void Hide();
 		void MainLoop(bool modeled = false);
 		void Paint();
 		bool Render() override;

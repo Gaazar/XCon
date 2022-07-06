@@ -677,13 +677,20 @@ void Frame::Close()
 }
 void Frame::Show()
 {
-	set_borderless(true);
-	set_borderless_shadow(true);
+	if (!inited)
+	{
+		set_borderless(true);
+		set_borderless_shadow(true);
+		AddRootView(this);
+		inited = true;
+	}
 	ShowWindow(hWnd, SW_SHOW);
-	AddRootView(this);
 
 }
-
+void Frame::Hide()
+{
+	ShowWindow(hWnd, SW_HIDE);
+}
 void Frame::MainLoop(bool modeled)
 {
 

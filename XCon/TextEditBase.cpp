@@ -319,6 +319,10 @@ LRESULT TextEditBase::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		auto hr = SetCursor(LoadCursor(nullptr, IDC_IBEAM));
 		return 1;
 	}
+	case FE_SIZED: 
+	{
+		Refresh();
+	}
 	default:
 		break;
 	}

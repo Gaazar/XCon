@@ -417,7 +417,7 @@ void DockProvider::PreviewEnd(bool place, Table tab)
 				np->Position({ previewer->GetRect().right + FlameUI::Theme::LinePadding,position.y });
 
 				previewer->Size({ previewer->GetRect().width(), previewer->Size().height });
-				previewer->Coord(COORD_POSTIVE, COORD_FILL);
+				previewer->Coord(COORD_POSITIVE, COORD_FILL);
 				hdl->Position({ previewer->GetRect().right ,0 });
 				hdl->BindEdge(EDGE_RIGHT, previewer);
 				hdl->BindEdge(EDGE_LEFT, np);
@@ -447,7 +447,7 @@ void DockProvider::PreviewEnd(bool place, Table tab)
 				np->Position({ position.x,previewer->GetRect().bottom + FlameUI::Theme::LinePadding });
 
 				previewer->Size({ previewer->Size().width,previewer->GetRect().height() });
-				previewer->Coord(COORD_FILL, COORD_POSTIVE);
+				previewer->Coord(COORD_FILL, COORD_POSITIVE);
 				hdl->Position({ 0 ,previewer->GetRect().bottom });
 				hdl->BindEdge(EDGE_BOTTOM, previewer);
 				hdl->BindEdge(EDGE_TOP, np);
@@ -471,7 +471,7 @@ void DockProvider::PreviewEnd(bool place, Table tab)
 			{
 				SeperatorHandle* hdl = new SeperatorHandle(parent);
 				Panel* np = new Panel(parent);
-				np->Coord(COORD_POSTIVE, COORD_FILL);
+				np->Coord(COORD_POSITIVE, COORD_FILL);
 				np->Size({ previewer->GetRect().left - FlameUI::Theme::LinePadding, 0 });
 				np->Position({ 0,0 });
 
@@ -498,7 +498,7 @@ void DockProvider::PreviewEnd(bool place, Table tab)
 			{
 				SeperatorHandle* hdl = new SeperatorHandle(parent, true);
 				Panel* np = new Panel(parent);
-				np->Coord(COORD_FILL, COORD_POSTIVE);
+				np->Coord(COORD_FILL, COORD_POSITIVE);
 				np->Size({ 0,previewer->GetRect().top - FlameUI::Theme::LinePadding });
 				np->Position({ 0,0 });
 

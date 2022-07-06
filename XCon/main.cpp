@@ -35,6 +35,7 @@ using namespace std;
 #include "json.hpp"
 #include "Frames.h"
 #include "global.h"
+#include "Dropdown.h"
 
 configor::wjson configs = configor::wjson();
 
@@ -56,6 +57,7 @@ void SaveConfigs()
 }
 
 bool cexit = false;
+Frame* ttframe;
 Chart* tchart = nullptr;
 
 Chart* crtaccl;
@@ -81,7 +83,7 @@ void Controls()
 					tchart->JoinValue(2, cp.roll / 32768.f);
 					tchart->JoinValue(3, cp.accelerator / 32768.f);
 				});
-			SendPacket(cp, "192.168.1.7", 10485);
+			SendPacket(cp, "192.168.1.3", 10485);
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(8));
 	}
@@ -122,7 +124,7 @@ int WinMain(HINSTANCE hInstance,
 	VideoPlayer vp(&mainFrame);
 	vp.Size({ 1260,576 });
 	vp.Position({ 10,40 });
-	vp.Source(L"udp://@239.0.0.1:11451");
+	vp.Source(L"udp://@192.168.1.5:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
@@ -166,9 +168,15 @@ int WinMain(HINSTANCE hInstance,
 	crtmag.JoinSeries(L"Magt Z", ColorF(ColorF::Blue));
 	crtmagt = &crtmag;
 
-	fbFrame.Show();
-	ShowInputCheckWindow();
-	ShowControlWindow();
+	Dropdown dp(&mainFrame);
+	dp.Position({ 10,50 });
+	dp.Size({ 150,FlameUI::Theme::LineHeight * 1.3f + FlameUI::Theme::LinePadding });
+
+	//fbFrame.Show();
+	ttframe = &fbFrame;
+	//ShowInputCheckWindow();
+	//ShowControlWindow();
+
 
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);

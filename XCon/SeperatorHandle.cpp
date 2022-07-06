@@ -93,12 +93,12 @@ SeperatorHandle::SeperatorHandle(View* parent, bool horizontal) :View(parent)
 	this->horizontal = horizontal;
 	if (horizontal)
 	{
-		Coord(COORD_FILL, COORD_POSTIVE);
+		Coord(COORD_FILL, COORD_POSITIVE);
 		Size({ 0, FlameUI::Theme::LinePadding });
 	}
 	else
 	{
-		Coord(COORD_POSTIVE, COORD_FILL);
+		Coord(COORD_POSITIVE, COORD_FILL);
 		Size({ FlameUI::Theme::LinePadding,0 });
 	}
 }
@@ -117,11 +117,11 @@ void SeperatorHandle::BindEdge(EDGE edge, View* view)
 		break;
 	case FlameUI::EDGE_RIGHT:
 		right = view;
-		view->Coord(COORD_POSTIVE, COORD_RESERVE);
+		view->Coord(COORD_POSITIVE, COORD_RESERVE);
 		break;
 	case FlameUI::EDGE_BOTTOM:
 		bottom = view;
-		view->Coord(COORD_RESERVE, COORD_POSTIVE);
+		view->Coord(COORD_RESERVE, COORD_POSITIVE);
 		break;
 	default:
 		break;

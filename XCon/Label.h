@@ -16,6 +16,7 @@ namespace FlameUI
 		void Refresh();
 	public:
 		Color frontColor;
+		Color backgroundColor;
 		Label(View* parent);
 		Label(View* parent, std::wstring content);
 		void Font(IDWriteTextFormat* format);

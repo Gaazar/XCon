@@ -24,6 +24,7 @@ Label::Label(View* parent, wstring content) :View(parent)
 	//localTransform = Matrix3x2F::Translation({ 20,20 });
 	UpdateTransform();
 	frontColor = Theme::Color::Front;
+	backgroundColor = ColorF(ColorF::Black, 0);
 	//render.direct = true;
 }
 Label::Label(View* parent) :Label(parent, L"")
@@ -51,10 +52,10 @@ wstring Label::Content()
 }
 void Label::Draw()
 {
-	auto ctx = BeginDraw(D2D1::ColorF::ColorF(ColorF::Green, 0.0f));
+	auto ctx = BeginDraw(backgroundColor);
 	ID2D1SolidColorBrush* br;
 	ctx->CreateSolidColorBrush(frontColor, &br);
-	ctx->DrawTextW(content.c_str(), content.length(), format, { 0,0,size.width,size.height }, br, D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT);
+	ctx->DrawTextW(content.c_str(), content.length(), format, { 0,0,rect.width(),rect.height() }, br, D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT);
 	br->Release();
 	EndDraw();
 }
@@ -64,6 +65,7 @@ LRESULT Label::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 	//if (msg == FE_MOUSELEAVE)  OutputDebugStringA("Label ML\n");
 	//if (msg == FE_LBUTTONCLICK) OutputDebugStringA("Label Clicked\n");
 	//if (msg == FE_MOUSEMOVE) std::cout << (((int)lParam) >> 16) << "," << ((int)lParam & 0x0000FFFF) << std::endl;
+	if (msg == FE_SIZED) Refresh();
 	return 0;
 }
 void Label::Font(IDWriteTextFormat* format)

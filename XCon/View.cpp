@@ -16,7 +16,7 @@ View::View() :parent(nullptr), disabled(false), keyable(false), mouseable(true),
 	masked = true;
 	localTransform = D2D1::Matrix3x2F::Identity();
 	finalTransform = localTransform;
-	layout.coord = { COORD_POSTIVE,COORD_POSTIVE };
+	layout.coord = { COORD_POSITIVE,COORD_POSITIVE };
 }
 View::View(View* parent, bool direct) : View()
 {
@@ -529,11 +529,11 @@ D2D1_RECT_F View::place()
 		}
 		if (empty)
 		{
-			if (layout.coord.x == COORD_POSTIVE)
+			if (layout.coord.x == COORD_POSITIVE)
 				w = parent->rect.width() - parent->layout.box.padding.left - layout.box.margin.left - position.x;
 			else
 				w = parent->rect.width();
-			if (layout.coord.y == COORD_POSTIVE)
+			if (layout.coord.y == COORD_POSITIVE)
 				h = parent->rect.height() - parent->layout.box.padding.top - layout.box.margin.top - position.y;
 			else
 				h = parent->rect.height();
@@ -546,7 +546,7 @@ D2D1_RECT_F View::place()
 	}
 	switch (layout.coord.x)
 	{
-	case COORD_POSTIVE:
+	case COORD_POSITIVE:
 		res.left = position.x + layout.box.margin.left + parent->layout.box.padding.left;
 		res.right = res.left + size.width;
 		break;
@@ -572,7 +572,7 @@ D2D1_RECT_F View::place()
 
 	switch (layout.coord.y)
 	{
-	case COORD_POSTIVE:
+	case COORD_POSITIVE:
 		res.top = position.y + layout.box.margin.top + parent->layout.box.padding.top;
 		res.bottom = res.top + size.height;
 		break;
@@ -621,6 +621,7 @@ struct Coord View::Coord()
 void View::SizeMode(SIZE_MODE x, SIZE_MODE y)
 {
 	layout.sizeMode = { x,y };
+	//SendEvent(FE_SIZED, 0, 0);
 }
 
 void View::UpdateAll()

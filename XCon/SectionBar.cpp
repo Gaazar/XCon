@@ -92,7 +92,7 @@ void SectionBar::AddOption(const wchar_t* dspl, View* content)
 {
 	Label* l = new Label(this, dspl);
 	l->Font(deffmt);
-	l->Coord(COORD_POSTIVE, COORD_CENTER);
+	l->Coord(COORD_POSITIVE, COORD_CENTER);
 	l->Margin(Rect(15, 0, 0, 0), true);
 	l->mouseable = true;
 	PostEvent(this, FE_CHILDSIZED, 0, 0);
