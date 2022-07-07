@@ -34,6 +34,7 @@ namespace FlameUI
 		std::thread playThread;
 		std::wstring url;
 		std::mutex mtx;
+		std::mutex mtxRender;
 
 
 		AVFrame* NextFrame();

@@ -147,6 +147,12 @@
     <ClInclude Include="Dropdown.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Math3Df.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AttitudeMeeter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="View.cpp">
@@ -252,6 +258,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Dropdown.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AttitudeMeeter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

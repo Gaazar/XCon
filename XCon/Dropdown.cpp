@@ -40,7 +40,6 @@ Dropdown::Dropdown(View* parent) :View(parent)
 	size = { 100,30 };
 	//FlameUI::Debug::showBorder = true;
 	te = new TextEditBase(this);
-	te->Content(L"Dropdown List");
 	te->Position({ 1 + 2.f * Theme::BorderWidth,1 + 2.f * Theme::BorderWidth });
 	te->Size({ 1 + 2.f * Theme::BorderWidth + Theme::LineHeight,1 + 2.f * Theme::BorderWidth });
 	te->Coord(COORD_FILL, COORD_FILL);
@@ -52,23 +51,16 @@ Dropdown::Dropdown(View* parent) :View(parent)
 	lbTrigger->Position({ 1 + 2.f * Theme::BorderWidth ,-3 });
 	lbTrigger->Size({ Theme::LineHeight,Theme::LineHeight });
 
-	Menu* m = new Menu(L"Candidates");
-	m->AppendItem(MenuItem::Common(0, nullptr, L"Candidate 1", L"", false));
-	m->AppendItem(MenuItem::Common(1, nullptr, L"Candidate 2", L"", false));
-	m->AppendItem(MenuItem::Common(2, nullptr, L"Candidate 3", L"", false));
-	m->AppendItem(MenuItem::Common(3, nullptr, L"Candidate 4", L"", false));
-	m->AppendItem(MenuItem::Common(4, nullptr, L"Candidate 5", L"", false));
-	m->AppendItem(MenuItem::Common(5, nullptr, L"Candidate 6", L"", false));
-
-	lbTrigger->AddEventListener([this, m](Message, WPARAM, LPARAM)
+	lbTrigger->AddEventListener([this](Message, WPARAM, LPARAM)
 		{
+			if (menu == nullptr) return;
 			float ch = FlameUI::Theme::LineHeight + FlameUI::Theme::LinePadding;
 			auto rc = CalcViewRectOnScreen(this);
 			MenuFrame* mf = new MenuFrame((Frame*)root,
 				{ (int)rc.left,(int)rc.bottom },
-				{ (LONG)rect.width(),(LONG)(ch * m->items.size() + FlameUI::Theme::LinePadding * 2) });
+				{ (LONG)rect.width(),(LONG)(ch * menu->items.size() + FlameUI::Theme::LinePadding * 2) });
 
-			for (auto i : m->items)
+			for (auto i : menu->items)
 			{
 				mf->Layouter(new LinearPlacer());
 				mf->Padding({ 0,Theme::LinePadding,0,0 });
@@ -102,7 +94,47 @@ Dropdown::Dropdown(View* parent) :View(parent)
 		}, FE_LBUTTONDOWN);
 }
 
-void Candidates(Menu* m)
-{
 
+bool Dropdown::Editable()
+{
+	return te->Readonly();
+}
+void Dropdown::Editable(bool v)
+{
+	te->Readonly(v);
+}
+void Dropdown::Candidates(Menu* m)
+{
+	menu = m;
+}
+Menu* Dropdown::Candidates()
+{
+	return menu;
+}
+std::wstring Dropdown::Content()
+{
+	return te->Content();
+}
+void Dropdown::Content(std::wstring c)
+{
+	te->Content(c);
+}
+void Dropdown::Cantidate(UINT64 id)
+{
+	if (menu == nullptr) return;
+	for (auto i : menu->items)
+	{
+		if (id == i.id)
+			Content(i.title);
+	}
+}
+UINT64 Dropdown::Candidate()
+{
+	if (menu == nullptr) return -1;
+	for (auto i : menu->items)
+	{
+		if (Content() == i.title)
+			return i.id;
+	}
+	return -1;
 }

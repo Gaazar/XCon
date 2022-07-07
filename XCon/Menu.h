@@ -16,13 +16,13 @@ namespace FlameUI
 		ID2D1Bitmap* icon = nullptr;
 		std::wstring title = L"";
 		std::wstring description = L"";
-		int id;
+		UINT64 id;
 		Menu* subMenu = nullptr;
 		bool disabled;
 		bool checked;
-		static MenuItem Common(int id, ID2D1Bitmap* icon, wstring title, wstring decsription, bool disabled = false);
+		static MenuItem Common(UINT64 id, ID2D1Bitmap* icon, wstring title, wstring decsription, bool disabled = false);
 		static MenuItem Seperator();
-		static MenuItem SubMenu(int id, Menu* menu);
+		static MenuItem SubMenu(UINT64 id, Menu* menu);
 	};
 	class Menu
 	{

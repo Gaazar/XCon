@@ -51,6 +51,7 @@ namespace FlameUI
 		bool masked;
 		bool monitor = false;
 		bool custommousetest = false;
+		bool managed = false;
 		long long value = 0;
 
 		View();

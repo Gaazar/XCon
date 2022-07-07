@@ -4,7 +4,7 @@ using namespace FlameUI;
 using namespace D2D1;
 using namespace std;
 
-MenuItem MenuItem::Common(int id, ID2D1Bitmap* icon, wstring title, wstring description, bool disabled)
+MenuItem MenuItem::Common(UINT64 id, ID2D1Bitmap* icon, wstring title, wstring description, bool disabled)
 {
 	return { MenuItemType_Common,icon,title,description,id,nullptr,disabled };
 }
@@ -13,7 +13,7 @@ MenuItem MenuItem::Seperator()
 	return { MenuItemType_Seperator,nullptr,L"",L"",0,nullptr };
 
 }
-MenuItem MenuItem::SubMenu(int id, Menu* menu)
+MenuItem MenuItem::SubMenu(UINT64 id, Menu* menu)
 {
 	return { MenuItemType_SubMenu,nullptr,menu->name,L"",id,menu };
 

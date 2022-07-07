@@ -36,6 +36,8 @@ using namespace std;
 #include "Frames.h"
 #include "global.h"
 #include "Dropdown.h"
+#include "Math3Df.h"
+#include "AttitudeMeeter.h"
 
 configor::wjson configs = configor::wjson();
 
@@ -63,7 +65,8 @@ Chart* tchart = nullptr;
 Chart* crtaccl;
 Chart* crtgyro;
 Chart* crtmagt;
-
+AttitudeMeeter* amtr;
+using namespace GxEngine;
 void Controls()
 {
 	while (!cexit)
@@ -92,9 +95,19 @@ void OnRecvTransmisson(int len, char* buff)
 {
 	Packet p;
 	memcpy(&p, buff, len);
-	RunInUIThread([p]()
+	GxEngine::Vector3 ypr;
+	Quaternion q;
+	q.w = p.feedback.remote.attitude.w;
+	q.x = p.feedback.remote.attitude.x;
+	q.y = p.feedback.remote.attitude.y;
+	q.z = p.feedback.remote.attitude.z;
+	ypr.z = atan2f(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y)) * RAD2DEG;
+	ypr.y = asinf(2 * (q.w * q.y - q.z * q.x)) * RAD2DEG;
+	ypr.x = atan2f(2 * (q.x * q.y + q.w * q.z), 1 - 2 * (q.y * q.y + q.z * q.z)) * RAD2DEG;
+	//std::cout << "Y/P/R: " << ypr.x << ", " << ypr.y << ", " << ypr.z << std::endl;
+	RunInUIThread([p, ypr]()
 		{
-			crtaccl->JoinValue(0, p.feedback.gyro.x);
+			/*crtaccl->JoinValue(0, p.feedback.gyro.x);
 			crtaccl->JoinValue(1, p.feedback.gyro.y);
 			crtaccl->JoinValue(2, p.feedback.gyro.z);
 
@@ -104,7 +117,8 @@ void OnRecvTransmisson(int len, char* buff)
 
 			crtmagt->JoinValue(0, p.feedback.magnetometer.x);
 			crtmagt->JoinValue(1, p.feedback.magnetometer.y);
-			crtmagt->JoinValue(2, p.feedback.magnetometer.z);
+			crtmagt->JoinValue(2, p.feedback.magnetometer.z);*/
+			amtr->SetYPR(ypr.x, ypr.y, ypr.z);
 
 		});
 
@@ -122,9 +136,10 @@ int WinMain(HINSTANCE hInstance,
 	//mainFrame.AddEventListener(0, &cb_close, FE_DESTROY);
 	mainFrame.Title(L"XCon");
 	VideoPlayer vp(&mainFrame);
-	vp.Size({ 1260,576 });
-	vp.Position({ 10,40 });
-	vp.Source(L"udp://@192.168.1.5:11451");
+	vp.Coord(COORD_FILL, COORD_FILL);
+	vp.Size({ 300,0 });
+	vp.Position({ 0,32 });
+	vp.Source(L"udp://@192.168.18.113:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
@@ -172,15 +187,19 @@ int WinMain(HINSTANCE hInstance,
 	dp.Position({ 10,50 });
 	dp.Size({ 150,FlameUI::Theme::LineHeight * 1.3f + FlameUI::Theme::LinePadding });
 
-	//fbFrame.Show();
+	amtr = new AttitudeMeeter(&mainFrame);
+	amtr->Size({ 300,330 });
+	amtr->Position({ 0,32 });
+	amtr->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+
+	fbFrame.Show();
 	ttframe = &fbFrame;
-	//ShowInputCheckWindow();
-	//ShowControlWindow();
+	ShowInputCheckWindow();
+	ShowControlWindow();
 
 
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);
-
 	mainFrame.MainLoop();
 	return 0;
 }

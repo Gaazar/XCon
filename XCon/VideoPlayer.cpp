@@ -2,8 +2,6 @@
 #include "FlameUI.h"
 #include <string>
 
-#include "yuv2rgbp.h"
-#include "yuv2rgbv.h"
 
 #include <iostream>
 #pragma comment(lib, "avcodec.lib")
@@ -14,7 +12,7 @@ using namespace D2D1;
 
 VideoPlayer::VideoPlayer(View* parent) :View(parent)
 {
-	timer = Animate(10000, 0, 0);
+	//timer = Animate(10000, 0, 0);
 }
 
 void VideoPlayer::Animation(float progress, int p1, int p2)
@@ -53,6 +51,7 @@ void VideoPlayer::RenderFrame()
 }
 void VideoPlayer::DisplayFrame()
 {
+	std::lock_guard<std::mutex> g(mtxRender);
 	IDXGISurface* dxgiSurface;
 	auto hr = tex2d->QueryInterface(&dxgiSurface);
 	if (img2d) img2d->Release();
@@ -169,6 +168,7 @@ LRESULT VideoPlayer::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 
 void VideoPlayer::Draw()
 {
+	std::lock_guard<std::mutex> g(mtxRender);
 	auto ctx = BeginDraw(ColorF::ColorF(ColorF::Black, 1));
 	if (img2d)
 	{

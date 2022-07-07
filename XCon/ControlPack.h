@@ -76,6 +76,29 @@ struct ConfigPack
 		uint8_t acclDLPF;
 		uint8_t gyroDLPF;
 	} mpu;
+	struct
+	{
+		struct
+		{
+			float w, x, y, z;
+		} auttitide;
+		struct 
+		{
+			float offset;
+			float range;
+		} yaw;
+		struct
+		{
+			float offset;
+			float range;
+		} pitch;
+		struct
+		{
+			float offset;
+			float range;
+		} roll;
+
+	} calibrations;
 };
 struct CommandPack
 {

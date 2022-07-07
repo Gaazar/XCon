@@ -466,11 +466,13 @@ LRESULT Frame::WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			if (!frame.deleted)
 			{
 				EnterCriticalSection(&gThreadAccess);
+				frame.managed = false;
 				frame.SendEvent(FE_DESTROY, 0, 0);
 				frame.deleted = true;
 				frame.rootContext->Release();
 				frame.swapChain->Release();
 				frame.rootContext = 0;
+				//delete window_ptr;
 
 				LeaveCriticalSection(&gThreadAccess);
 			}

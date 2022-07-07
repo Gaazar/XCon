@@ -61,6 +61,7 @@ namespace FlameUI
 		wstring Content();
 		void Multiline(bool);
 		void Readonly(bool);
+		bool Readonly();
 		void Password(bool);
 		void Tabable(bool);
 

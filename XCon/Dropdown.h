@@ -11,6 +11,7 @@ namespace FlameUI
 	{
 		TextEditBase* te;
 		Label* lbTrigger;
+		Menu* menu;
 
 	protected:
 		LRESULT OnEvent(Message msg, WPARAM wParam, LPARAM lParam) override;
@@ -20,6 +21,11 @@ namespace FlameUI
 		bool Editable();
 		void Editable(bool);
 		void Candidates(Menu*);
+		Menu* Candidates();
+		std::wstring Content();
+		void Content(std::wstring);
+		void Cantidate(UINT64 id);
+		UINT64 Candidate();
 
 	};
 }

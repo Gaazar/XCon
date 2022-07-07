@@ -341,7 +341,9 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 				render.context = nullptr;
 			}
 		}
-		break;
+		if (managed)
+			delete this;
+		return 0;
 	}
 	default:
 		ret = OnEvent(msg, wParam, lParam);

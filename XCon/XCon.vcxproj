@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AttitudeMeeter.h" />
     <ClInclude Include="basictypes.h" />
     <ClInclude Include="Chart.h" />
     <ClInclude Include="ControlPack.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="LinearPlacer.h" />
+    <ClInclude Include="Math3Df.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuFrame.h" />
     <ClInclude Include="MenuPainter.h" />
@@ -185,6 +187,7 @@
     <ClInclude Include="XInputCehcker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttitudeMeeter.cpp" />
     <ClCompile Include="Chart.cpp" />
     <ClCompile Include="ControllWindow.cpp" />
     <ClCompile Include="D3DViewPort.cpp" />
