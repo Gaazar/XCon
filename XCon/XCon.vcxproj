@@ -167,6 +167,7 @@
     <ClInclude Include="LinearPlacer.h" />
     <ClInclude Include="Math3Df.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuBar.h" />
     <ClInclude Include="MenuFrame.h" />
     <ClInclude Include="MenuPainter.h" />
     <ClInclude Include="Panel.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="LinearPlacer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="MenuFrame.cpp" />
     <ClCompile Include="MenuPainter.cpp" />
     <ClCompile Include="Panel.cpp" />

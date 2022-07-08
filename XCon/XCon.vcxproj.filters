@@ -153,6 +153,9 @@
     <ClInclude Include="AttitudeMeeter.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MenuBar.h">
+      <Filter>头文件\Views</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="View.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="AttitudeMeeter.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuBar.cpp">
+      <Filter>源文件\Views</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
