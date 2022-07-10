@@ -45,6 +45,11 @@ void RootView::SetMouseFoci(View* newFoci)
 	}
 
 }
+View* RootView::GetKeyboardFocus()
+{
+	return keyboadrFoci;
+}
+
 void RootView::SetKeyboardFoci(View* newFoci)
 {
 	if (keyboadrFoci != newFoci)

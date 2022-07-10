@@ -26,6 +26,7 @@ namespace FlameUI
 		View* MoveFoci();
 		void SetMouseFoci(View* newFoci);
 		void SetKeyboardFoci(View* newFoci);
+		View* GetKeyboardFocus();
 		virtual POINT GetCursorPos() = 0;
 	};
 }
