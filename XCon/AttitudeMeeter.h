@@ -6,6 +6,7 @@ namespace FlameUI
 		public View
 	{
 	private:
+		animation_id aid;
 		IDWriteTextFormat* fmt;
 		float yaw;
 		float pitch;
@@ -16,6 +17,7 @@ namespace FlameUI
 	protected:
 		LRESULT OnEvent(Message msg, WPARAM wParam, LPARAM lParam) override;
 		void Draw() override;
+		void Animation(float, int, int) override;
 
 	public:
 		float smoothFast = 0.2f;

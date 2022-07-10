@@ -12,15 +12,6 @@ LRESULT AttitudeMeeter::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 }
 void AttitudeMeeter::Draw()
 {
-	float sf = smoothFast;
-	float dy = ry - yaw, dp = rp - pitch, dr = rr - roll;
-	if (dp * dp + dr * dr < 5)
-	{
-		sf = smoothSlow;
-	}
-	yaw = yaw + dy * sf;
-	pitch = pitch + dp * sf;
-	roll = roll + dr * sf;
 
 	float ppd = 9;
 	auto ctx = BeginDraw(ColorF(0, 0.3843f, 0.5490));
@@ -113,6 +104,7 @@ AttitudeMeeter::AttitudeMeeter(View* parent) :View(parent)
 	gDWFactory->CreateTextFormat(L"Consolas", NULL, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 18, locale, &fmt);
 	fmt->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 	fmt->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+	aid = Animate(1000, 0, 0);
 }
 
 void AttitudeMeeter::SetYPR(float y, float p, float r)
@@ -121,7 +113,24 @@ void AttitudeMeeter::SetYPR(float y, float p, float r)
 	if (y < 0)
 		ry = 360 + y;
 	rp = p;
-	rr = r;
+	rr = -r;
 	UpdateView();
 }
 
+void AttitudeMeeter::Animation(float p, int, int)
+{
+	float sf = smoothFast;
+	float dy = ry - yaw, dp = rp - pitch, dr = rr - roll;
+	if (dp * dp + dr * dr < 5)
+	{
+		sf = smoothSlow;
+	}
+	yaw = yaw + dy * sf;
+	pitch = pitch + dp * sf;
+	roll = roll + dr * sf;
+
+	if (p == 1)
+	{
+		Animate(1000, 0, 0,aid);
+	}
+}

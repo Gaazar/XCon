@@ -184,6 +184,7 @@
     <ClInclude Include="Transmission.h" />
     <ClInclude Include="VideoPlayer.h" />
     <ClInclude Include="View.h" />
+    <ClInclude Include="XCon.h" />
     <ClInclude Include="XInputCehcker.h" />
   </ItemGroup>
   <ItemGroup>

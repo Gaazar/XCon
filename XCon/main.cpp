@@ -1,43 +1,6 @@
-﻿#include "FlameUI.h"
-#include "Frame.h"
-#include "Label.h"
-#include "Button.h"
-#include "Image.h"
-#include "Scroller.h"
-#include "ScrollView.h"
-#include "CheckBox.h"
-#include "Toggle.h"
-#include "RadioButton.h"
-#include "TextEditor.h"
-
-#include <fstream>
-#include <iostream>
-#include <set>
-#include <sstream>
-#include <thread>
-
+﻿#include "XCon.h"
 using namespace FlameUI;
 using namespace std;
-
-#include "LinearPlacer.h"
-#include "SectionBar.h"
-#include "SheetView.h"
-#include "MenuFrame.h"
-#include "DockProvider.h"
-#include "SeperatorHandle.h"
-#include "ImGuiCanvas.h"
-#include "VideoPlayer.h"
-#include "XInputCehcker.h"
-#include "Chart.h"
-#include "XInput.h"
-
-#include "Transmission.h"
-#include "json.hpp"
-#include "Frames.h"
-#include "global.h"
-#include "Dropdown.h"
-#include "Math3Df.h"
-#include "AttitudeMeeter.h"
 
 configor::wjson configs = configor::wjson();
 
@@ -66,6 +29,8 @@ Chart* crtaccl;
 Chart* crtgyro;
 Chart* crtmagt;
 AttitudeMeeter* amtr;
+
+float rollo = 0, pitcho = 0;
 using namespace GxEngine;
 void Controls()
 {
@@ -118,7 +83,7 @@ void OnRecvTransmisson(int len, char* buff)
 			crtmagt->JoinValue(0, p.feedback.magnetometer.x);
 			crtmagt->JoinValue(1, p.feedback.magnetometer.y);
 			crtmagt->JoinValue(2, p.feedback.magnetometer.z);*/
-			amtr->SetYPR(ypr.x, ypr.y, ypr.z);
+			amtr->SetYPR(ypr.x, ypr.y + pitcho, ypr.z + rollo);
 
 		});
 
@@ -139,7 +104,7 @@ int WinMain(HINSTANCE hInstance,
 	vp.Coord(COORD_FILL, COORD_FILL);
 	vp.Size({ 300,0 });
 	vp.Position({ 0,32 });
-	vp.Source(L"udp://@192.168.18.113:11451");
+	vp.Source(L"udp://@192.168.18.137:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
@@ -183,22 +148,88 @@ int WinMain(HINSTANCE hInstance,
 	crtmag.JoinSeries(L"Magt Z", ColorF(ColorF::Blue));
 	crtmagt = &crtmag;
 
-	Dropdown dp(&mainFrame);
+	/*Dropdown dp(&mainFrame);
 	dp.Position({ 10,50 });
-	dp.Size({ 150,FlameUI::Theme::LineHeight * 1.3f + FlameUI::Theme::LinePadding });
+	dp.Size({ 150,FlameUI::Theme::LineHeight * 1.3f + FlameUI::Theme::LinePadding });*/
 
 	amtr = new AttitudeMeeter(&mainFrame);
 	amtr->Size({ 300,330 });
 	amtr->Position({ 0,32 });
 	amtr->Coord(COORD_NEGATIVE, COORD_POSITIVE);
 
-	fbFrame.Show();
+	{
+		Button* btn = new Button(&mainFrame);
+		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		btn->Padding({ 10,5,10,5 });
+		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		btn->Position({ 10, 370 });
+		new Label(btn, L"校准陀螺仪");
+		btn->AddEventListener([](Message, WPARAM, LPARAM)
+			{
+				CommandPack p;
+				p.command = COMMAND_MPU_CALIBRATE;
+				p.args[0] = 1;
+				SendPacket(p, "192.168.18.1", 10485);
+			}, FE_LBUTTONDOWN);
+
+		btn = new Button(&mainFrame);
+		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		btn->Padding({ 10,5,10,5 });
+		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		btn->Position({ 100, 370 });
+		new Label(btn, L"校准磁力计");
+		btn->AddEventListener([](Message, WPARAM, LPARAM)
+			{
+				CommandPack p;
+				p.command = COMMAND_MPU_CALIBRATE;
+				p.args[0] = 2;
+				SendPacket(p, "192.168.18.1", 10485);
+			}, FE_LBUTTONDOWN);
+
+		TextEditor* teor, * teop;
+		teop = new TextEditor(&mainFrame);
+		teop->Content(L"0");
+		teop->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		teop->Position({ 120, 410 });
+		teop->Size({ 50, 26 });
+		btn = new Button(&mainFrame);
+		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		btn->Padding({ 10,5,10,5 });
+		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		btn->Position({ 10, 410 });
+		new Label(btn, L"设置俯仰偏移");
+		btn->AddEventListener([teop](Message, WPARAM, LPARAM)
+			{
+				pitcho = std::stof(teop->Content());
+			}, FE_LBUTTONDOWN);
+
+		teor = new TextEditor(&mainFrame);
+		teor->Content(L"0");
+		teor->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		teor->Position({ 120, 450 });
+		teor->Size({ 50, 26 });
+		btn = new Button(&mainFrame);
+		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		btn->Padding({ 10,5,10,5 });
+		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		btn->Position({ 10, 450 });
+		new Label(btn, L"设置横滚偏移");
+		btn->AddEventListener([teor](Message, WPARAM, LPARAM)
+			{
+				rollo = std::stof(teor->Content());
+
+			}, FE_LBUTTONDOWN);
+
+	}
+	//fbFrame.Show();
 	ttframe = &fbFrame;
-	ShowInputCheckWindow();
-	ShowControlWindow();
+	//ShowInputCheckWindow();
+	//ShowControlWindow();
 
 
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
+	//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
+	crt.mouseable = false;
+	crt.Alpha(1);
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);
 	mainFrame.MainLoop();
 	return 0;

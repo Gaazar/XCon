@@ -153,6 +153,9 @@
     <ClInclude Include="AttitudeMeeter.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="XCon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="View.cpp">

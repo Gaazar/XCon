@@ -81,7 +81,7 @@ void VideoPlayer::PlayThread()
 			avcodec_open2(vcodecCtx, codec, NULL);
 		}
 	}
-
+		
 	AVBufferRef* hw_device_ctx = nullptr;
 	av_hwdevice_ctx_create(&hw_device_ctx, AVHWDeviceType::AV_HWDEVICE_TYPE_D3D11VA, NULL, NULL, NULL);
 	vcodecCtx->hw_device_ctx = hw_device_ctx;
