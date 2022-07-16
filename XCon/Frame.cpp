@@ -687,6 +687,7 @@ void Frame::Show()
 		inited = true;
 	}
 	ShowWindow(hWnd, SW_SHOW);
+	UpdateTransform();
 
 }
 void Frame::Hide()

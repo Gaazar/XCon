@@ -1,4 +1,6 @@
 ﻿#include "XCon.h"
+#include "FlirecViewer.h"
+
 using namespace FlameUI;
 using namespace std;
 
@@ -225,6 +227,7 @@ int WinMain(HINSTANCE hInstance,
 	ttframe = &fbFrame;
 	//ShowInputCheckWindow();
 	//ShowControlWindow();
+	//ShowFilrecViewerWindow();
 
 
 	//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);

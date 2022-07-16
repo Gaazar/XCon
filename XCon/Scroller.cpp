@@ -40,8 +40,11 @@ void Scroller::Animation(float progress, int p1, int p2)
 	if (p1 == 0) handle.current = LERP(handle.from, handle.to, 1 - (1 - progress) * (1 - progress));
 	if (p1 == 1) animation.prs_hide = 1 - (1 - progress) * (1 - progress);
 	if (p1 == 2) animation.prs_hide = (1 - progress) * (1 - progress);
-	if (p1 != -1)
+	if (p1 != -1 && p1 != 1 && p1 != 2)
+	{
 		parent->SendEvent(FE_S_SCROLLING, (WPARAM)this, 0);
+		SendEvent(FE_S_SCROLLING, 0, 0);
+	}
 	UpdateView();
 }
 LRESULT Scroller::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
@@ -102,6 +105,7 @@ LRESULT Scroller::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			float pcs = pos - delta;
 			handle.current = handle.to = CLAMP(pcs / (tlen - hlen) * (max - tlen), 0, max - tlen);
 			parent->SendEvent(FE_S_SCROLLING, (WPARAM)this, 0);
+			SendEvent(FE_S_SCROLLING, 0, 0);
 			UpdateView();
 		}
 		break;
@@ -129,7 +133,7 @@ void Scroller::Max(float max)
 	if (handle.current > max - tlen)
 	{
 		handle.to = max - tlen;
-		if(handle.to < 0) handle.to = 0;
+		if (handle.to < 0) handle.to = 0;
 		Animate(200, 0, 0, animation.scroll);
 	}
 	UpdateView();

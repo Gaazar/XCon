@@ -9,7 +9,6 @@ namespace FlameUI
 		public View
 	{
 	private:
-		bool horizontal = false;
 		float max;
 		struct
 		{
@@ -30,6 +29,7 @@ namespace FlameUI
 		LRESULT OnEvent(Message msg, WPARAM wParam, LPARAM lParam) override;
 		void Animation(float progress, int p1, int p2) override;
 	public:
+		bool horizontal = false;
 		Scroller(View* parent);
 		void Max(float max);
 		float Max();

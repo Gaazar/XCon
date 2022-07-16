@@ -16,6 +16,7 @@ namespace FlameUI
 		std::vector<Series> series;
 		animation_id aid;
 		float gmax;
+		int imax;
 		float dt = 0;
 
 		void Animation(float progress, int p1, int p2) override;
@@ -24,9 +25,12 @@ namespace FlameUI
 		void Draw() override;
 	public:
 		int maxHistory = 300;
+		int beginIndex = -1;
 		Chart(View* parent);
+		void SetValueSet(int series, vector<float>& values);
 		void JoinSeries(std::wstring name, Color color);
-		void JoinValue(int series, float value);
+		void JoinValue(int series, float value,bool generateCurve = true);
+		void GenerateCurve(int series);
 	};
 }
 

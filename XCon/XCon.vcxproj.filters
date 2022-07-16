@@ -112,6 +112,9 @@
     <ClCompile Include="XInputCehcker.cpp">
       <Filter>XCon</Filter>
     </ClCompile>
+    <ClCompile Include="FlirecViewer.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttitudeMeeter.h">
@@ -145,9 +148,6 @@
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
     <ClInclude Include="Frame.h">
-      <Filter>FlameUI\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="global.h">
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
     <ClInclude Include="Frames.h">
@@ -241,6 +241,15 @@
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
     <ClInclude Include="XCon.h">
+      <Filter>XCon</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>XCon</Filter>
+    </ClInclude>
+    <ClInclude Include="FlameUIBasics.h">
+      <Filter>FlameUI\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FlirecViewer.h">
       <Filter>XCon</Filter>
     </ClInclude>
   </ItemGroup>

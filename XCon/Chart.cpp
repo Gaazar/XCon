@@ -8,6 +8,13 @@ using namespace FlameUI;
 
 LRESULT Chart::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 {
+	if (msg == FE_SIZED)
+	{
+		for (int i = 0; i < series.size(); i++)
+		{
+			GenerateCurve(i);
+		}
+	}
 	return 0;
 }
 void Chart::Draw()
@@ -21,10 +28,10 @@ void Chart::Draw()
 	ctx->DrawTextW(toStringW(gmax).c_str(), toStringW(gmax).length(), root->dTextFormat, { 0.f,20.f,1000.f,40.f }, br);
 	ctx->DrawLine({ 0,rect.height() - 20 }, { rect.width(), rect.height() - 20 }, br);
 	ctx->DrawTextW(toStringW(-gmax).c_str(), toStringW(-gmax).length(), root->dTextFormat, { 0.f,rect.height() - 20,1000.f,rect.height() }, br);
-	
+
 	br->SetOpacity(1);
 
-	
+
 	for (int i = 0; i < rect.height() / 2 / 50; i++)
 	{
 
@@ -59,12 +66,19 @@ void Chart::JoinSeries(std::wstring name, Color color)
 	s.color = color;
 }
 
-void Chart::JoinValue(int i, float value)
+void Chart::JoinValue(int i, float value, bool generateCurve)
 {
 	series[i].values.push_back(value);
-	int l = series[i].values.size() - 1;
+	if (generateCurve) GenerateCurve(i);
+
+}
+void Chart::GenerateCurve(int i)
+{
+	//int l = series[i].values.size() - 1;
+	int vl = series[i].values.size();
 	if (series[i].path)
 	{
+		series[i].path->Release();
 		series[i].path->Release();
 	}
 	int r = maxHistory;
@@ -72,18 +86,32 @@ void Chart::JoinValue(int i, float value)
 	for (int j = 0; j < series.size(); j++)
 	{
 		float tmax = 0.001f;
-		int tl = series[j].values.size() - 1;
-		for (int n = 0; n < maxHistory; n++)
+		int vl = series[j].values.size();
+		if (beginIndex < 0)
 		{
-			if (tl - n < 0)
+			for (int n = 0; n < maxHistory; n++)
 			{
-				break;
+				if (vl - n - 1 < 0) break;
+				if (abs(series[j].values[vl - n - 1]) > tmax)
+					tmax = abs(series[j].values[vl - n - 1]);
+
 			}
-			if (abs(series[j].values[tl - n]) > tmax)
-				tmax = abs(series[j].values[tl - n]);
+		}
+		else
+		{
+			for (int n = 0; n < maxHistory; n++)
+			{
+				int c = maxHistory - n - 1;
+				if (beginIndex + n >= vl) break;
+
+				if (abs(series[j].values[beginIndex + n]) > tmax)
+					tmax = abs(series[j].values[beginIndex + n]);
+
+			}
 		}
 		if (tmax > max) max = tmax;
 	}
+
 	gmax = max;
 	float w = rect.width();
 	float h = rect.height();
@@ -91,22 +119,53 @@ void Chart::JoinValue(int i, float value)
 	float hr = (h - 40) / max / 2;
 	gD2DFactory->CreatePathGeometry(&series[i].path);
 	ID2D1GeometrySink* s;
-	series[i].path->Open(&s);
-	for (int n = 0; n < maxHistory; n++)
+	auto hrr = series[i].path->Open(&s);
+	if (beginIndex < 0)
 	{
-		if (l - n < 0) break;
-		if (n == 0)
+		for (int n = 0; n < maxHistory; n++)
 		{
-			s->BeginFigure({ w - wr * n ,h / 2 + series[i].values[l - n] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
+			if (vl - n - 1 < 0) break;
+			if (n == 0)
+			{
+				s->BeginFigure({ w - wr * n ,h / 2 + series[i].values[vl - n - 1] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
+			}
+			else
+			{
+				s->AddLine({ w - wr * n ,h / 2 + series[i].values[vl - n - 1] * hr });
+			}
 		}
-		else
+	}
+	else
+	{
+		for (int n = 0; n < maxHistory; n++)
 		{
-			s->AddLine({ w - wr * n ,h / 2 + series[i].values[l - n] * hr });
+			int c = maxHistory - n - 1;
+			if (beginIndex + n >= vl)
+				break;
+			if (n == 0)
+			{
+				s->BeginFigure({ w - wr * c ,h / 2 + series[i].values[beginIndex + n] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
+			}
+			else
+			{
+				s->AddLine({ w - wr * c ,h / 2 + series[i].values[beginIndex + n] * hr });
+			}
 		}
 	}
 	s->EndFigure(D2D1_FIGURE_END_OPEN);
-	s->Close();
+	hrr = s->Close();
+	if (hrr != S_OK)
+	{
+		s->Release();
+		series[i].path->Release();
+		series[i].path = nullptr;
+	}
 	UpdateView();
+}
+
+void Chart::SetValueSet(int i, vector<float>& values)
+{
+	series[i].values = values;
 }
 
 void Chart::Animation(float progress, int p1, int p2)

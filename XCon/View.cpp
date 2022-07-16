@@ -277,10 +277,11 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		if (mouseable)
 		{
 			ret = OnEvent(msg, wParam, lParam);
-			if (!ret && parent && !(lParam & FE_S_L_FROMPARENT))
-			{
-				parent->SendEvent(msg, wParam, lParam);
-			}
+		}
+		if (!ret && parent && !(lParam == FE_S_L_FROMPARENT))
+		{
+			parent->SendEvent(msg, wParam, lParam);
+			return 0;
 		}
 		break;
 	}
