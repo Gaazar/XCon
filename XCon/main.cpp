@@ -5,6 +5,7 @@ using namespace FlameUI;
 using namespace std;
 
 configor::wjson configs = configor::wjson();
+#define REMOTE_IP "192.168.1.13"
 
 
 int main()
@@ -53,7 +54,7 @@ void Controls()
 					tchart->JoinValue(2, cp.roll / 32768.f);
 					tchart->JoinValue(3, cp.accelerator / 32768.f);
 				});
-			SendPacket(cp, "192.168.1.3", 10485);
+			SendPacket(cp, REMOTE_IP, 10485);
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(8));
 	}
@@ -62,32 +63,35 @@ void OnRecvTransmisson(int len, char* buff)
 {
 	Packet p;
 	memcpy(&p, buff, len);
-	GxEngine::Vector3 ypr;
-	Quaternion q;
-	q.w = p.feedback.remote.attitude.w;
-	q.x = p.feedback.remote.attitude.x;
-	q.y = p.feedback.remote.attitude.y;
-	q.z = p.feedback.remote.attitude.z;
-	ypr.z = atan2f(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y)) * RAD2DEG;
-	ypr.y = asinf(2 * (q.w * q.y - q.z * q.x)) * RAD2DEG;
-	ypr.x = atan2f(2 * (q.x * q.y + q.w * q.z), 1 - 2 * (q.y * q.y + q.z * q.z)) * RAD2DEG;
-	//std::cout << "Y/P/R: " << ypr.x << ", " << ypr.y << ", " << ypr.z << std::endl;
-	RunInUIThread([p, ypr]()
-		{
-			/*crtaccl->JoinValue(0, p.feedback.gyro.x);
-			crtaccl->JoinValue(1, p.feedback.gyro.y);
-			crtaccl->JoinValue(2, p.feedback.gyro.z);
+	if (p.type == PACKET_TYPE_FEEDBACK)
+	{
+		GxEngine::Vector3 ypr;
+		Quaternion q;
+		q.w = p.feedback.remote.attitude.w;
+		q.x = p.feedback.remote.attitude.x;
+		q.y = p.feedback.remote.attitude.y;
+		q.z = p.feedback.remote.attitude.z;
+		ypr.z = atan2f(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y)) * RAD2DEG;
+		ypr.y = asinf(2 * (q.w * q.y - q.z * q.x)) * RAD2DEG;
+		ypr.x = atan2f(2 * (q.x * q.y + q.w * q.z), 1 - 2 * (q.y * q.y + q.z * q.z)) * RAD2DEG;
+		//std::cout << "Y/P/R: " << ypr.x << ", " << ypr.y << ", " << ypr.z << std::endl;
+		RunInUIThread([p, ypr]()
+			{
+				/*crtaccl->JoinValue(0, p.feedback.gyro.x);
+				crtaccl->JoinValue(1, p.feedback.gyro.y);
+				crtaccl->JoinValue(2, p.feedback.gyro.z);
 
-			crtgyro->JoinValue(0, p.feedback.gyro.yaw);
-			crtgyro->JoinValue(1, p.feedback.gyro.pitch);
-			crtgyro->JoinValue(2, p.feedback.gyro.roll);
+				crtgyro->JoinValue(0, p.feedback.gyro.yaw);
+				crtgyro->JoinValue(1, p.feedback.gyro.pitch);
+				crtgyro->JoinValue(2, p.feedback.gyro.roll);
 
-			crtmagt->JoinValue(0, p.feedback.magnetometer.x);
-			crtmagt->JoinValue(1, p.feedback.magnetometer.y);
-			crtmagt->JoinValue(2, p.feedback.magnetometer.z);*/
-			amtr->SetYPR(ypr.x, ypr.y + pitcho, ypr.z + rollo);
+				crtmagt->JoinValue(0, p.feedback.magnetometer.x);
+				crtmagt->JoinValue(1, p.feedback.magnetometer.y);
+				crtmagt->JoinValue(2, p.feedback.magnetometer.z);*/
+				amtr->SetYPR(ypr.x, ypr.y + pitcho, ypr.z + rollo);
 
-		});
+			});
+	}
 
 }
 int WinMain(HINSTANCE hInstance,
@@ -106,7 +110,7 @@ int WinMain(HINSTANCE hInstance,
 	vp.Coord(COORD_FILL, COORD_FILL);
 	vp.Size({ 300,0 });
 	vp.Position({ 0,32 });
-	vp.Source(L"udp://@192.168.18.137:11451");
+	vp.Source(L"udp://@127.0.0.1:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
@@ -171,7 +175,7 @@ int WinMain(HINSTANCE hInstance,
 				CommandPack p;
 				p.command = COMMAND_MPU_CALIBRATE;
 				p.args[0] = 1;
-				SendPacket(p, "192.168.18.1", 10485);
+				SendPacket(p, REMOTE_IP, 10485);
 			}, FE_LBUTTONDOWN);
 
 		btn = new Button(&mainFrame);
@@ -185,7 +189,7 @@ int WinMain(HINSTANCE hInstance,
 				CommandPack p;
 				p.command = COMMAND_MPU_CALIBRATE;
 				p.args[0] = 2;
-				SendPacket(p, "192.168.18.1", 10485);
+				SendPacket(p, REMOTE_IP, 10485);
 			}, FE_LBUTTONDOWN);
 
 		TextEditor* teor, * teop;

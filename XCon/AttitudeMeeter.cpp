@@ -131,6 +131,7 @@ void AttitudeMeeter::Animation(float p, int, int)
 
 	if (p == 1)
 	{
-		Animate(1000, 0, 0,aid);
+		Animate(1000, 0, 0, aid);
 	}
+	UpdateView();
 }

@@ -82,7 +82,7 @@ struct ConfigPack
 		{
 			float w, x, y, z;
 		} auttitide;
-		struct 
+		struct
 		{
 			float offset;
 			float range;
@@ -106,13 +106,39 @@ struct CommandPack
 	uint32_t args[16];
 
 };
+struct MavLinkPack
+{
+	int len;
+	char data[512];
+	bool TX()
+	{
+		return data[0];
+	}
+	bool RX()
+	{
+		return !TX();
+	}
+	void TX(bool v)
+	{
+		data[0] = v;
+	}
+	void RX(bool v)
+	{
+		TX(!v);
+	}
+	char* Data()
+	{
+		return &data[1];
+	}
+};
 enum PACKET_TYPE : int32_t
 {
 	PACKET_TYPE_CONTROL,
 	PACKET_TYPE_FEEDBACK,
 	PACKET_TYPE_CONFIG,
 	PACKET_TYPE_COMMAND,
-	PACKET_TYPE_MEETERS
+	PACKET_TYPE_MEETERS,
+	PACKET_TYPE_MAVLINK
 };
 struct Packet
 {
@@ -124,6 +150,7 @@ struct Packet
 		ConfigPack config;
 		CommandPack command;
 		MeetersPack meeters;
+		MavLinkPack mavlink;
 	};
 
 	Packet() { type = PACKET_TYPE_COMMAND; };
@@ -133,4 +160,27 @@ struct Packet
 	Packet(ConfigPack& p) { type = PACKET_TYPE_CONFIG; config = p; }
 	Packet(CommandPack& p) { type = PACKET_TYPE_COMMAND; command = p; }
 	Packet(MeetersPack& p) { type = PACKET_TYPE_MEETERS; meeters = p; }
+	Packet(MavLinkPack& p) { type = PACKET_TYPE_MAVLINK; mavlink = p; }
 };
+
+inline int sizeofpack(Packet& p)
+{
+	auto t = p.type;
+	switch (t)
+	{
+	case PACKET_TYPE_CONTROL:
+		return sizeof ControlPack;
+	case PACKET_TYPE_FEEDBACK:
+		return sizeof FeedbackPack;
+	case PACKET_TYPE_CONFIG:
+		return sizeof ConfigPack;
+	case PACKET_TYPE_COMMAND:
+		return sizeof CommandPack;
+	case PACKET_TYPE_MEETERS:
+		return sizeof MeetersPack;
+	case PACKET_TYPE_MAVLINK:
+		return p.mavlink.len + 5;
+	default:
+		break;
+	}
+}

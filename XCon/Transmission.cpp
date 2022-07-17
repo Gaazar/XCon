@@ -40,13 +40,13 @@ void CleanTransmission()
 
 }
 
-void SendPacket(Packet pk, std::string raddr, unsigned short port)
+void SendPacket(Packet p, std::string raddr, unsigned short port)
 {
 	SOCKADDR_IN addr;
 	addr.sin_addr.S_un.S_addr = inet_addr(raddr.c_str());
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
-	sendto(sk_control, (char*)&pk, sizeof pk, 0, (SOCKADDR*)&addr, sizeof addr);
+	sendto(sk_control, (char*)&p, sizeofpack(p), 0, (SOCKADDR*)&addr, sizeof addr);
 }
 void ControlRecv(void(*cb)(int, char*))
 {
