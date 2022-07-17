@@ -115,6 +115,9 @@
     <ClCompile Include="FlirecViewer.cpp">
       <Filter>XCon</Filter>
     </ClCompile>
+    <ClCompile Include="MavProcess.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttitudeMeeter.h">

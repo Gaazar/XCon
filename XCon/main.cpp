@@ -3,9 +3,10 @@
 
 using namespace FlameUI;
 using namespace std;
+void RxData(char* data, int len);
 
 configor::wjson configs = configor::wjson();
-#define REMOTE_IP "192.168.1.13"
+#define REMOTE_IP "192.168.1.41"
 
 
 int main()
@@ -32,6 +33,7 @@ Chart* crtaccl;
 Chart* crtgyro;
 Chart* crtmagt;
 AttitudeMeeter* amtr;
+AttitudeMeeter* amtr_mav;
 
 float rollo = 0, pitcho = 0;
 using namespace GxEngine;
@@ -63,6 +65,11 @@ void OnRecvTransmisson(int len, char* buff)
 {
 	Packet p;
 	memcpy(&p, buff, len);
+	if (p.type == PACKET_TYPE_MAVLINK)
+	{
+		RxData(p.mavlink.data, p.mavlink.meta.len);
+		return;
+	}
 	if (p.type == PACKET_TYPE_FEEDBACK)
 	{
 		GxEngine::Vector3 ypr;
@@ -163,68 +170,73 @@ int WinMain(HINSTANCE hInstance,
 	amtr->Position({ 0,32 });
 	amtr->Coord(COORD_NEGATIVE, COORD_POSITIVE);
 
+	amtr_mav = new AttitudeMeeter(&mainFrame);
+	amtr_mav->Size({ 300,330 });
+	amtr_mav->Position({ 0,32 + 330 });
+	amtr_mav->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+
 	{
-		Button* btn = new Button(&mainFrame);
-		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-		btn->Padding({ 10,5,10,5 });
-		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
-		btn->Position({ 10, 370 });
-		new Label(btn, L"校准陀螺仪");
-		btn->AddEventListener([](Message, WPARAM, LPARAM)
-			{
-				CommandPack p;
-				p.command = COMMAND_MPU_CALIBRATE;
-				p.args[0] = 1;
-				SendPacket(p, REMOTE_IP, 10485);
-			}, FE_LBUTTONDOWN);
+		//Button* btn = new Button(&mainFrame);
+		//btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		//btn->Padding({ 10,5,10,5 });
+		//btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		//btn->Position({ 10, 370 });
+		//new Label(btn, L"校准陀螺仪");
+		//btn->AddEventListener([](Message, WPARAM, LPARAM)
+		//	{
+		//		CommandPack p;
+		//		p.command = COMMAND_MPU_CALIBRATE;
+		//		p.args[0] = 1;
+		//		SendPacket(p, REMOTE_IP, 10485);
+		//	}, FE_LBUTTONDOWN);
 
-		btn = new Button(&mainFrame);
-		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-		btn->Padding({ 10,5,10,5 });
-		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
-		btn->Position({ 100, 370 });
-		new Label(btn, L"校准磁力计");
-		btn->AddEventListener([](Message, WPARAM, LPARAM)
-			{
-				CommandPack p;
-				p.command = COMMAND_MPU_CALIBRATE;
-				p.args[0] = 2;
-				SendPacket(p, REMOTE_IP, 10485);
-			}, FE_LBUTTONDOWN);
+		//btn = new Button(&mainFrame);
+		//btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		//btn->Padding({ 10,5,10,5 });
+		//btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		//btn->Position({ 100, 370 });
+		//new Label(btn, L"校准磁力计");
+		//btn->AddEventListener([](Message, WPARAM, LPARAM)
+		//	{
+		//		CommandPack p;
+		//		p.command = COMMAND_MPU_CALIBRATE;
+		//		p.args[0] = 2;
+		//		SendPacket(p, REMOTE_IP, 10485);
+		//	}, FE_LBUTTONDOWN);
 
-		TextEditor* teor, * teop;
-		teop = new TextEditor(&mainFrame);
-		teop->Content(L"0");
-		teop->Coord(COORD_NEGATIVE, COORD_POSITIVE);
-		teop->Position({ 120, 410 });
-		teop->Size({ 50, 26 });
-		btn = new Button(&mainFrame);
-		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-		btn->Padding({ 10,5,10,5 });
-		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
-		btn->Position({ 10, 410 });
-		new Label(btn, L"设置俯仰偏移");
-		btn->AddEventListener([teop](Message, WPARAM, LPARAM)
-			{
-				pitcho = std::stof(teop->Content());
-			}, FE_LBUTTONDOWN);
+		//TextEditor* teor, * teop;
+		//teop = new TextEditor(&mainFrame);
+		//teop->Content(L"0");
+		//teop->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		//teop->Position({ 120, 410 });
+		//teop->Size({ 50, 26 });
+		//btn = new Button(&mainFrame);
+		//btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		//btn->Padding({ 10,5,10,5 });
+		//btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		//btn->Position({ 10, 410 });
+		//new Label(btn, L"设置俯仰偏移");
+		//btn->AddEventListener([teop](Message, WPARAM, LPARAM)
+		//	{
+		//		pitcho = std::stof(teop->Content());
+		//	}, FE_LBUTTONDOWN);
 
-		teor = new TextEditor(&mainFrame);
-		teor->Content(L"0");
-		teor->Coord(COORD_NEGATIVE, COORD_POSITIVE);
-		teor->Position({ 120, 450 });
-		teor->Size({ 50, 26 });
-		btn = new Button(&mainFrame);
-		btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
-		btn->Padding({ 10,5,10,5 });
-		btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
-		btn->Position({ 10, 450 });
-		new Label(btn, L"设置横滚偏移");
-		btn->AddEventListener([teor](Message, WPARAM, LPARAM)
-			{
-				rollo = std::stof(teor->Content());
+		//teor = new TextEditor(&mainFrame);
+		//teor->Content(L"0");
+		//teor->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		//teor->Position({ 120, 450 });
+		//teor->Size({ 50, 26 });
+		//btn = new Button(&mainFrame);
+		//btn->SizeMode(SIZE_MODE_CHILDREN, SIZE_MODE_CHILDREN);
+		//btn->Padding({ 10,5,10,5 });
+		//btn->Coord(COORD_NEGATIVE, COORD_POSITIVE);
+		//btn->Position({ 10, 450 });
+		//new Label(btn, L"设置横滚偏移");
+		//btn->AddEventListener([teor](Message, WPARAM, LPARAM)
+		//	{
+		//		rollo = std::stof(teor->Content());
 
-			}, FE_LBUTTONDOWN);
+		//	}, FE_LBUTTONDOWN);
 
 	}
 	//fbFrame.Show();
@@ -242,3 +254,7 @@ int WinMain(HINSTANCE hInstance,
 	return 0;
 }
 
+void Amtr_Mav(float y, float p, float r)
+{
+	amtr_mav->SetYPR(y, p, r);
+}

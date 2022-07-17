@@ -209,6 +209,7 @@
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LinearPlacer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MavProcess.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="MenuFrame.cpp" />

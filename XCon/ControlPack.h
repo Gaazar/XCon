@@ -1,4 +1,5 @@
 #pragma once
+#include "memory.h"
 
 struct ControlPack
 {
@@ -36,21 +37,21 @@ struct FeedbackPack
 			float x, y, z, w;
 		} attitude;
 
-		struct {
+		struct
+		{
 			float x, y, z;
 		} velocity;
 	} remote;
-
 };
-enum COMMAND :uint32_t
+enum COMMAND : uint32_t
 {
-	COMMAND_MPU_RESET,			//no parameters
-	COMMAND_MPU_CALIBRATE,		//[0]=0:both 1:mag 2:gyro
-	COMMAND_REQUEST_CONFIG,		//--
-	COMMAND_AUTO_FLIGHT,		//[0]=0:off 1:on
-	COMMAND_RETURN,				//--
-	COMMAND_SELF_DESTRUCT,		//--
-	COMMAND_SELFCHECK_STATUS,	//[0]=0:success 1:failed
+	COMMAND_MPU_RESET,		  // no parameters
+	COMMAND_MPU_CALIBRATE,	  //[0]=0:both 1:mag 2:gyro
+	COMMAND_REQUEST_CONFIG,	  //--
+	COMMAND_AUTO_FLIGHT,	  //[0]=0:off 1:on
+	COMMAND_RETURN,			  //--
+	COMMAND_SELF_DESTRUCT,	  //--
+	COMMAND_SELFCHECK_STATUS, //[0]=0:success 1:failed
 };
 struct MeetersPack
 {
@@ -104,15 +105,18 @@ struct CommandPack
 {
 	COMMAND command;
 	uint32_t args[16];
-
 };
 struct MavLinkPack
 {
-	int len;
-	char data[512];
+	struct
+	{
+		short len;
+		bool tx;
+	} meta;
+	char data[384];
 	bool TX()
 	{
-		return data[0];
+		return meta.tx;
 	}
 	bool RX()
 	{
@@ -120,15 +124,11 @@ struct MavLinkPack
 	}
 	void TX(bool v)
 	{
-		data[0] = v;
+		meta.tx = v;
 	}
 	void RX(bool v)
 	{
 		TX(!v);
-	}
-	char* Data()
-	{
-		return &data[1];
 	}
 };
 enum PACKET_TYPE : int32_t
@@ -155,12 +155,36 @@ struct Packet
 
 	Packet() { type = PACKET_TYPE_COMMAND; };
 	Packet(PACKET_TYPE type) { this->type = type; };
-	Packet(ControlPack& p) { type = PACKET_TYPE_CONTROL; control = p; }
-	Packet(FeedbackPack& p) { type = PACKET_TYPE_FEEDBACK; feedback = p; }
-	Packet(ConfigPack& p) { type = PACKET_TYPE_CONFIG; config = p; }
-	Packet(CommandPack& p) { type = PACKET_TYPE_COMMAND; command = p; }
-	Packet(MeetersPack& p) { type = PACKET_TYPE_MEETERS; meeters = p; }
-	Packet(MavLinkPack& p) { type = PACKET_TYPE_MAVLINK; mavlink = p; }
+	Packet(ControlPack& p)
+	{
+		type = PACKET_TYPE_CONTROL;
+		control = p;
+	}
+	Packet(FeedbackPack& p)
+	{
+		type = PACKET_TYPE_FEEDBACK;
+		feedback = p;
+	}
+	Packet(ConfigPack& p)
+	{
+		type = PACKET_TYPE_CONFIG;
+		config = p;
+	}
+	Packet(CommandPack& p)
+	{
+		type = PACKET_TYPE_COMMAND;
+		command = p;
+	}
+	Packet(MeetersPack& p)
+	{
+		type = PACKET_TYPE_MEETERS;
+		meeters = p;
+	}
+	Packet(MavLinkPack& p)
+	{
+		type = PACKET_TYPE_MAVLINK;
+		mavlink = p;
+	}
 };
 
 inline int sizeofpack(Packet& p)
@@ -169,17 +193,17 @@ inline int sizeofpack(Packet& p)
 	switch (t)
 	{
 	case PACKET_TYPE_CONTROL:
-		return sizeof ControlPack;
+		return sizeof(ControlPack);
 	case PACKET_TYPE_FEEDBACK:
-		return sizeof FeedbackPack;
+		return sizeof(FeedbackPack);
 	case PACKET_TYPE_CONFIG:
-		return sizeof ConfigPack;
+		return sizeof(ConfigPack);
 	case PACKET_TYPE_COMMAND:
-		return sizeof CommandPack;
+		return sizeof(CommandPack);
 	case PACKET_TYPE_MEETERS:
-		return sizeof MeetersPack;
+		return sizeof(MeetersPack);
 	case PACKET_TYPE_MAVLINK:
-		return p.mavlink.len + 5;
+		return p.mavlink.meta.len + sizeof(p.mavlink.meta);
 	default:
 		break;
 	}
