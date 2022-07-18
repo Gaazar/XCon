@@ -25,6 +25,13 @@ void RxData(char* data, int len)
 				//printf("roll: %fdeg yaw: %fdeg pitch: %fdeg\n", a.roll * RAD2DEG, a.yaw * RAD2DEG, a.pitch * RAD2DEG);
 				break;
 			}
+			case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
+			{
+				mavlink_global_position_int_t gp;
+				mavlink_msg_global_position_int_decode(&msg, &gp);
+				
+				break;
+			}
 			default:
 				break;
 			}

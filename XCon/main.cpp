@@ -117,7 +117,7 @@ int WinMain(HINSTANCE hInstance,
 	vp.Coord(COORD_FILL, COORD_FILL);
 	vp.Size({ 300,0 });
 	vp.Position({ 0,32 });
-	vp.Source(L"udp://@127.0.0.1:11451");
+	vp.Source(L"udp://@localhost:11451");
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
