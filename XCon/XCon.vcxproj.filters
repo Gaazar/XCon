@@ -118,6 +118,9 @@
     <ClCompile Include="MavProcess.cpp">
       <Filter>XCon</Filter>
     </ClCompile>
+    <ClCompile Include="OSDOverlay.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttitudeMeeter.h">
@@ -253,6 +256,9 @@
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
     <ClInclude Include="FlirecViewer.h">
+      <Filter>XCon</Filter>
+    </ClInclude>
+    <ClInclude Include="OSDOverlay.h">
       <Filter>XCon</Filter>
     </ClInclude>
   </ItemGroup>

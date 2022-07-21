@@ -29,8 +29,14 @@ void RxData(char* data, int len)
 			{
 				mavlink_global_position_int_t gp;
 				mavlink_msg_global_position_int_decode(&msg, &gp);
-				
+				//printf("lat:%f lon:%f alt:%f\n", gp.lat / 10000000.f, gp.lon / 10000000.f, gp.alt / 1000.f);
 				break;
+			}
+			case MAVLINK_MSG_ID_VFR_HUD:
+			{
+				mavlink_vfr_hud_t m;
+				mavlink_msg_vfr_hud_decode(&msg, &m);
+				printf("as:%f gs:%f climb:%f alt:%f head:%d \n", m.airspeed, m.groundspeed, m.climb, m.alt, m.heading);
 			}
 			default:
 				break;

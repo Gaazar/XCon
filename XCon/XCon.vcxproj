@@ -172,6 +172,7 @@
     <ClInclude Include="MenuBar.h" />
     <ClInclude Include="MenuFrame.h" />
     <ClInclude Include="MenuPainter.h" />
+    <ClInclude Include="OSDOverlay.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="RootView.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="MenuFrame.cpp" />
     <ClCompile Include="MenuPainter.cpp" />
+    <ClCompile Include="OSDOverlay.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="RootView.cpp" />
