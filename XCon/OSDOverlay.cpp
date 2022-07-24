@@ -3,6 +3,15 @@
 
 using namespace FlameUI;
 using namespace D2D1;
+
+float smoother(float& v, float t, float  s, float  f, float throt)
+{
+	float sm = s;
+	if (abs(v - t) > throt) sm = f;
+	v = v + (t - v) * sm;
+	return v;
+}
+
 LRESULT OSDOverlay::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 {
 	return 0;
@@ -189,15 +198,46 @@ OSDOverlay::OSDOverlay(View* parent) :View(parent)
 }
 void OSDOverlay::Animation(float p, int, int)
 {
+	lon_d = rawdata.lon;
+	lat_d = rawdata.lat;
+	smoother(aspeed_d, rawdata.aspeed, smooth.meter_s, smooth.meter_f, 1);
+	smoother(gspeed_d, rawdata.gspeed, smooth.meter_s, smooth.meter_f, 1);
+	smoother(climb_d, rawdata.climb, smooth.meter_s, smooth.meter_f, 0.2f);
+	smoother(alt_d, rawdata.alt, smooth.meter_s, smooth.meter_f, 2.0f);
+	smoother(yaw_d, rawdata.yaw, smooth.degs_s, smooth.degs_f, 2.0f);
+	smoother(pitch_d, rawdata.pitch, smooth.degs_s, smooth.degs_f, 2.0f);
+	smoother(roll_d, rawdata.roll, smooth.degs_s, smooth.degs_f, 2.0f);
 	if (p == 1)
 	{
 		Animate(1000, 0, 0, aid);
 	}
-	roll_d += ((float)rand() / RAND_MAX) * 5 - 2.5f;
-	pitch_d += ((float)rand() / RAND_MAX) * 2 - 1.f;
-	yaw_d += ((float)rand() / RAND_MAX) * 5 - 2.5f;
-	aspeed_d += 0.016f;
-	alt_d += 0.2f;
-	climb_d = 10;
+	//roll_d += ((float)rand() / RAND_MAX) * 5 - 2.5f;
+	//pitch_d += ((float)rand() / RAND_MAX) * 2 - 1.f;
+	//yaw_d += ((float)rand() / RAND_MAX) * 5 - 2.5f;
+	//aspeed_d += 0.016f;
+	//alt_d += 0.2f;
+	//climb_d = 10;
 	UpdateView();
+}
+
+void OSDOverlay::SetYPR(float y, float p, float r)
+{
+	rawdata.yaw = y;
+	rawdata.pitch = p;
+	rawdata.roll = r;
+}
+void OSDOverlay::SetGPS(float lat, float lon)
+{
+	rawdata.lat = lat;
+	rawdata.lon = lon;
+}
+void OSDOverlay::SetSpeeds(float as, float gs)
+{
+	rawdata.aspeed = as;
+	rawdata.gspeed = gs;
+}
+void OSDOverlay::SetAltc(float alt, float climb)
+{
+	rawdata.alt = alt;
+	rawdata.climb = climb;
 }
