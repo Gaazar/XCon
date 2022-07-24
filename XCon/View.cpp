@@ -58,6 +58,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		if (render.alpha == 1) break;
 		//render.direct = true;
 		D2D1_MATRIX_3X2_F transform = *(D2D1_MATRIX_3X2_F*)wParam;
+		//Debug::renderedViews++;
 		if (!direct)
 		{
 			tempRootCtx = currentRootCtx;

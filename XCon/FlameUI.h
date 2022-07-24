@@ -37,6 +37,7 @@ namespace FlameUI
 	{
 		extern bool showBorder;
 		extern View* tempView;
+		extern int renderedViews;
 	}
 
 #ifdef _DX12

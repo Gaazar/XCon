@@ -1,8 +1,8 @@
-Menu/Windows/Settings,1
-Menu/Windows/InputDevices,2
-Menu/Windows/FilghtReview,3
-Menu/Windows/Calibration,4
-Menu/Windows/RawMeeters,5
-Menu/Windows/KeyBinds,6
-Menu/Help/Feedback,11
-Menu/Help/About,12
+Menu/窗口/设置,1
+Menu/窗口/输入设备,2
+Menu/窗口/飞行纪录,3
+Menu/窗口/校准,4
+Menu/窗口/原始数据,5
+Menu/窗口/操作绑定,6
+Menu/帮助/反馈,11
+Menu/帮助/关于,12

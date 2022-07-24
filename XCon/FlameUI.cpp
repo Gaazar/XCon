@@ -71,6 +71,8 @@ D2D1_COLOR_F Theme::Color::Theme = ColorF::ColorF(ColorF::DeepSkyBlue);
 
 bool Debug::showBorder = false;
 View* Debug::tempView = nullptr;
+int Debug::renderedViews;
+
 //For complex apps
 float Theme::BasicTextSize = 13.0f; //15
 float Theme::LineHeight = 18.f;		//24
@@ -154,6 +156,8 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
 			rvWaitList.clear();
 		}
 		//EnterCriticalSection(&gThreadAccess);
+		//auto t = GetTime(1000000);
+		//Debug::renderedViews = 0;
 		for (vector<RootView*>::iterator i = gRootViews.begin(); i != gRootViews.end();)
 		{
 			if (!(*i)->deleted)
@@ -171,6 +175,7 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
 				i = gRootViews.erase(i);
 			}
 		}
+		//printf("rendered %d views.\tframe time: %fms\n", Debug::renderedViews, (GetTime(1000000) - t) * 0.001f);
 		if (gRootViews.size() == 0)
 		{
 			disposed = true;

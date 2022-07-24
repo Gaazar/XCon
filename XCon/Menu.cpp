@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <codecvt>
 #include "FlameUI.h"
 using namespace std;
 using namespace FlameUI;
@@ -80,31 +81,33 @@ vector<string>& split(const string& s, char delim, vector<string>& elems) {
 	}
 	return elems;
 }
-vector<Menu*> Menu::Load(const wchar_t* path)
+vector<Menu*> Menu::Load(const wchar_t* fpath)
 {
 	vector<Menu*> menus;
-	ifstream fs(path, ios::in);
-	map<string, Menu*> pathToMenu;
+	ifstream fs(fpath, ios::in);
+	map<wstring, Menu*> pathToMenu;
 	int gid = 1;
 	if (fs.good())
 	{
-		string line;
-		while (getline(fs, line, '\n'))
+		string sline;
+		while (getline(fs, sline, '\n'))
 		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+			wstring line = converter.from_bytes(sline);
 			auto p = line.find_last_of('/');
-			string name = line.substr(p + 1);
-			string path = line.substr(0, p);
-			vector<string> ppart;
+			wstring name = line.substr(p + 1);
+			wstring path = line.substr(0, p);
+			vector<wstring> ppart;
 			size_t bpos = 0;
 			Menu* parent = nullptr;
 			while (bpos != string::npos)
 			{
 				bpos = path.find_first_of('/', bpos + 1);
-				string ppath = path.substr(0, bpos);
+				wstring ppath = path.substr(0, bpos);
 				if (pathToMenu.count(ppath) == 0)
 				{
 					auto p = ppath.find_last_of('/');
-					Menu* t = new Menu(s2ws(ppath.substr(p + 1)));
+					Menu* t = new Menu(ppath.substr(p + 1));
 					pathToMenu[ppath] = t;
 					if (parent)
 					{
@@ -122,20 +125,20 @@ vector<Menu*> Menu::Load(const wchar_t* path)
 				}
 				//cout << path.substr(0, bpos) << " pos=" << bpos << endl;
 			}
-			if (name == "|")
+			if (name == L"|")
 			{
 				parent->AppendItem(MenuItem::Seperator());
 			}
 			else if (name[0] == '.')
 			{
-				Menu* t = new Menu(s2ws(name.substr(1)));
+				Menu* t = new Menu(name.substr(1));
 				parent->AppendItem(MenuItem::SubMenu(0, t));
 			}
 			else
 			{
-				std::string scid = "";
+				std::wstring scid = L"";
 				bool f = false;
-				std::string rname = "";
+				std::wstring rname = L"";
 				for (int i = 0; i < name.length(); i++)
 				{
 					if (name[i] == ',')
@@ -149,14 +152,14 @@ vector<Menu*> Menu::Load(const wchar_t* path)
 					else
 						rname += name[i];
 				}
-				if (scid == "")
+				if (scid == L"")
 				{
-					parent->AppendItem(MenuItem::Common(gid, nullptr, s2ws(name), L""));
+					parent->AppendItem(MenuItem::Common(gid, nullptr, name, L""));
 					gid++;
 				}
 				else
 				{
-					parent->AppendItem(MenuItem::Common(stoi(scid), nullptr, s2ws(rname), L""));
+					parent->AppendItem(MenuItem::Common(stoi(scid), nullptr, rname, L""));
 				}
 			}
 		}
