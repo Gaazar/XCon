@@ -569,7 +569,7 @@ void  FlameUI::AddRootView(RootView* rf)
 {
 	rvWaitList.push_back(rf);
 }
-MenuFrame* FlameUI::_popMenu(Frame* root, Menu* m, MenuCallback cb, void* thiz, POINT manual)
+MenuFrame* FlameUI::PopupMenu(Frame* root, Menu* menu, std::function<void(Menu*, int)> callback, POINT manual)
 {
 	//cout << "pop a menu" << endl;
 	POINT wz, cp = root->GetCursorPos();
@@ -581,7 +581,7 @@ MenuFrame* FlameUI::_popMenu(Frame* root, Menu* m, MenuCallback cb, void* thiz, 
 		wz = manual;
 	}
 	MenuFrame* mf = new MenuFrame(root, { wz.x  ,wz.y }, { 128,64 });
-	MenuPainter* mp = new MenuPainter(mf, m, cb, thiz);
+	MenuPainter* mp = new MenuPainter(mf, menu, callback);
 	mp->Position({ 0,1 });
 	SIZE sz;
 	sz.cx = mp->menuSize.width;
@@ -697,7 +697,7 @@ void FlameUI::_rootDragDispatch(DockProvider* rv, Point mousePos, Message msg)
 
 }
 
-void FlameUI::RunInMainThread(std::function<void(void)> func,bool delay)
+void FlameUI::RunInMainThread(std::function<void(void)> func, bool delay)
 {
 	if (GetCurrentThreadId() == MainThreadId && !delay)
 	{

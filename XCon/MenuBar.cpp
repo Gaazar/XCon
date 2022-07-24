@@ -54,7 +54,7 @@ LRESULT MenuBar::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 						auto scp = CalcViewRectOnScreen(this);
 						scp.top = scp.bottom;
 						scp.left += x;
-						PopupMenu((Frame*)root, i.subMenu, nullptr, 0, { (int)scp.left,(int)scp.top });
+						PopupMenu((Frame*)root, i.subMenu, callback, { (int)scp.left,(int)scp.top });
 						break;
 					}
 					x += tws[n] + Theme::LineHeight;
@@ -115,6 +115,7 @@ MenuBar::MenuBar(View* parent) :View(parent)
 	keyable = true;
 	size = { 50,Theme::LineHeight + Theme::LinePadding };
 	layout.sizeMode = { SIZE_MODE_CONTENT, SIZE_MODE_CONTENT };
+	UpdateView();
 }
 void MenuBar::SetMenu(Menu* m)
 {
@@ -140,4 +141,8 @@ void MenuBar::SetMenu(Menu* m)
 		}
 	}
 	UpdateView();
+}
+void MenuBar::Callback(std::function<void(Menu*, int)> cb)
+{
+	callback = cb;
 }

@@ -115,7 +115,7 @@ LRESULT MenuPainter::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		{
 			if (callback)
 			{
-				callback(cbThis, menu, menu->items[current].id);
+				callback(menu, menu->items[current].id);
 			}
 		}
 	}
@@ -130,7 +130,7 @@ LRESULT MenuPainter::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			pt.x += menuSize.width - 1;
 			pt.y += currentSubmenuY;
 		}
-		submenuFrame = PopupMenu((Frame*)root, menu->items[wParam].subMenu, callback, cbThis, pt);
+		submenuFrame = PopupMenu((Frame*)root, menu->items[wParam].subMenu, callback, pt);
 		if (mf)
 		{
 			mf->ignore = false;
@@ -149,9 +149,8 @@ LRESULT MenuPainter::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-MenuPainter::MenuPainter(View* parent, Menu* m, MenuCallback cb, void* thiz) :View(parent), menu(m), callback(cb)
+MenuPainter::MenuPainter(View* parent, Menu* m, std::function<void(Menu*, int)> cb) :View(parent), menu(m), callback(cb)
 {
-	cbThis = thiz;
 	MenuFrame* mf = dynamic_cast<MenuFrame*>(root);
 	if (mf)
 	{

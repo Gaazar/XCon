@@ -11,8 +11,7 @@ namespace FlameUI
 	{
 	private:
 		Menu* menu;
-		MenuCallback callback;
-		void* cbThis;
+		std::function<void(Menu*, int)> callback;
 		POINT mpos;
 		IDWriteTextFormat* textFormat;
 		int current;
@@ -25,7 +24,7 @@ namespace FlameUI
 		LRESULT OnEvent(Message msg, WPARAM wParam, LPARAM lParam) override;
 	public:
 		D2D1_SIZE_F menuSize;
-		MenuPainter(View* parent, Menu* m, MenuCallback cb, void* thiz = 0);
+		MenuPainter(View* parent, Menu* m, std::function<void(Menu*, int)> cb);
 
 	};
 }

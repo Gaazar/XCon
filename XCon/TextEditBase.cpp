@@ -311,7 +311,7 @@ LRESULT TextEditBase::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 				texteditMenu->ModifyItem(5, mi);
 			}
 		}
-		PopupMenu((Frame*)root, texteditMenu, &TextEditBase::MenuCallback, this);
+		PopupMenu((Frame*)root, texteditMenu, [this](Menu* m, int i) {this->MenuCallback(m, i); });
 		break;
 	}
 	case WM_SETCURSOR:

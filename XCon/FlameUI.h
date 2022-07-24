@@ -87,15 +87,10 @@ namespace FlameUI
 	View* Create(View* parent, wchar_t* clsName, wchar_t name, LayoutData& layout, void* initData = nullptr);
 	animation_id Animate(animation_callback callback, time_t duration, WPARAM wParam, LPARAM lParam, animation_id id_override = -1);
 	animation_id Animate(View* target, time_t duration, WPARAM wParam, LPARAM lParam, animation_id id_override = -1);
-	timer_id RegisterTimer(std::function<void()> cb,time_t duration);
+	timer_id RegisterTimer(std::function<void()> cb, time_t duration);
 	void AddRootView(RootView* rf);
-	MenuFrame* _popMenu(Frame* root, Menu* menu, MenuCallback cb, void* thiz, POINT manual);
 
-	template <typename T>
-	MenuFrame* PopupMenu(Frame* root, Menu* menu, T callback, void* thiz = 0, POINT manual = { -158,-155 })
-	{
-		return _popMenu(root, menu, MakeCallback<T, MenuCallback>(callback), thiz, manual);
-	}
+	MenuFrame* PopupMenu(Frame* root, Menu* menu, std::function<void(Menu*, int)> callback, POINT manual = { -158,-155 });
 
 	time_t GetTime(double unit = 1000);
 
@@ -105,7 +100,7 @@ namespace FlameUI
 	void _removeDockProvider(DockProvider* dp);
 	void _rootDragDispatch(DockProvider* dp, Point mousePos, Message msg);
 
-	void RunInMainThread(std::function<void(void)> func,bool delay = false);
+	void RunInMainThread(std::function<void(void)> func, bool delay = false);
 	void RunInUIThread(std::function<void(void)> func);
 	FlameUI::Rect CalcViewRectOnScreen(View* v);
 	template <typename T>

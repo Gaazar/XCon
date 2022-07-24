@@ -115,6 +115,32 @@ int WinMain(HINSTANCE hInstance,
 	Frame mainFrame({ 1280,720 });
 	//mainFrame.AddEventListener(0, &cb_close, FE_DESTROY);
 	mainFrame.Title(L"XCon");
+	//FlameUI::Debug::showBorder = true;
+
+	MenuBar mb(&mainFrame);
+	mb.Position({ 60, 5 });
+	mb.SetMenu(Menu::Load(L"mainmenu.txt")[0]);
+	mb.Callback([](Menu* m, int id)
+		{
+			if (id == 2)
+			{
+				ShowInputCheckWindow();
+			}
+			else if (id == 3)
+			{
+				ShowFilrecViewerWindow();
+			}
+			else if (id == 6)
+			{
+				ShowControlWindow();
+			}
+
+	//ShowControlWindow();
+	//
+
+			printf("menu id: %d\n", id);
+		});
+
 	VideoPlayer vp(&mainFrame);
 	vp.Coord(COORD_FILL, COORD_FILL);
 	vp.Size({ 300,0 });

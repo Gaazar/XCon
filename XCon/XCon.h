@@ -28,6 +28,7 @@
 #include "XInputCehcker.h"
 #include "Chart.h"
 #include "XInput.h"
+#include "MenuBar.h"
 
 #include "Transmission.h"
 #include "json.hpp"

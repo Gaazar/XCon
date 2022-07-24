@@ -327,7 +327,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			(*i)->SendEvent(FE_DESTROY, 0, 0);
 			i = children.erase(i);
 		}
-		OnEvent(msg, wParam, lParam);
+		ret = OnEvent(msg, wParam, lParam);
 		//if (parent)parent->RemoveChild(this);
 		if (!direct)
 		{
@@ -344,7 +344,6 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		}
 		if (managed)
 			delete this;
-		return 0;
 	}
 	default:
 		ret = OnEvent(msg, wParam, lParam);
