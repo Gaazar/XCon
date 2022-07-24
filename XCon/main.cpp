@@ -1,5 +1,6 @@
 ﻿#include "XCon.h"
 #include "FlirecViewer.h"
+#include "OSDOverlay.h"
 
 using namespace FlameUI;
 using namespace std;
@@ -118,6 +119,10 @@ int WinMain(HINSTANCE hInstance,
 	vp.Size({ 300,0 });
 	vp.Position({ 0,32 });
 	vp.Source(L"udp://@192.168.1.10:11451");
+
+	OSDOverlay osd(&vp);
+	osd.Coord(COORD_FILL, COORD_FILL);
+	osd.Size({ 0,0 });
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
