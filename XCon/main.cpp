@@ -172,7 +172,26 @@ int WinMain(HINSTANCE hInstance,
 			camplt_mbd = false;
 
 		}, FE_LBUTTONUP);
-	osdx.AddEventListener([](Message, WPARAM, LPARAM lParam)
+	auto campinvk = []() 
+	{
+		CommandPack p;
+		p.command = COMMAND_CAMERA;
+
+		auto cam = configs[L"calibration"][L"Camera"];
+		int pn = wcstol(cam[L"pitch_negative"].as_string().c_str(), nullptr, 10);
+		int pp = wcstol(cam[L"pitch_positive"].as_string().c_str(), nullptr, 10);
+		int pz = wcstol(cam[L"pitch_zero"].as_string().c_str(), nullptr, 10);
+		int yn = wcstol(cam[L"yaw_negative"].as_string().c_str(), nullptr, 10);
+		int yp = wcstol(cam[L"yaw_positive"].as_string().c_str(), nullptr, 10);
+		int yz = wcstol(cam[L"yaw_zero"].as_string().c_str(), nullptr, 10);
+
+		p.args[0] = CalibratedValue(yp, yn, yz, camplt_yaw);
+		p.args[1] = CalibratedValue(pp, pn, pz, camplt_pitch);
+		SendPacket(p, REMOTE_IP, 10485);
+		printf("camplt yaw: %d, pitch: %d\n", p.args[0], p.args[1]);
+
+	};
+	osdx.AddEventListener([&](Message, WPARAM, LPARAM lParam)
 		{
 			if (camplt_mbd)
 			{
@@ -188,27 +207,14 @@ int WinMain(HINSTANCE hInstance,
 				if (camplt_yaw < -1) camplt_yaw = -1;
 				if (camplt_pitch > 1) camplt_pitch = 1;
 				if (camplt_pitch < -1) camplt_pitch = -1;
-				CommandPack p;
-				p.command = COMMAND_CAMERA;
-
-				auto cam = configs[L"calibration"][L"Camera"];
-				int pn = wcstol(cam[L"pitch_negative"].as_string().c_str(), nullptr, 10);
-				int pp = wcstol(cam[L"pitch_positive"].as_string().c_str(), nullptr, 10);
-				int pz = wcstol(cam[L"pitch_zero"].as_string().c_str(), nullptr, 10);
-				int yn = wcstol(cam[L"yaw_negative"].as_string().c_str(), nullptr, 10);
-				int yp = wcstol(cam[L"yaw_positive"].as_string().c_str(), nullptr, 10);
-				int yz = wcstol(cam[L"yaw_zero"].as_string().c_str(), nullptr, 10);
-
-				p.args[0] = CalibratedValue(yp, yn, yz, camplt_yaw);
-				p.args[1] = CalibratedValue(pp, pn, pz, camplt_pitch);
-				SendPacket(p, REMOTE_IP, 10485);
-				printf("camplt yaw: %d, pitch: %d\n", p.args[0], p.args[1]);
+				campinvk();
 			}
 		}, FE_MOUSEMOVE);
 
-	osdx.AddEventListener([](...)
+	osdx.AddEventListener([&](...)
 		{
 			camplt_yaw = camplt_pitch = 0;
+			campinvk();
 		}, FE_RBUTTONDOWN);
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
