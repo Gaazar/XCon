@@ -37,6 +37,12 @@ AttitudeMeeter* amtr;
 AttitudeMeeter* amtr_mav;
 OSDOverlay* osd;
 
+float camplt_yaw;
+float camplt_pitch;
+bool camplt_mbd;
+float camplt_sens = 0.002f;
+FlameUI::Vector2 camplt_mbpos;
+
 float rollo = 0, pitcho = 0;
 using namespace GxEngine;
 void Controls()
@@ -51,13 +57,13 @@ void Controls()
 			cp.yaw = -s.Gamepad.bLeftTrigger + s.Gamepad.bRightTrigger;
 			cp.pitch = s.Gamepad.sThumbRX;
 			cp.roll = -s.Gamepad.sThumbRY - 1;
-			RunInUIThread([cp]()
-				{
-					tchart->JoinValue(0, cp.yaw / 255.f);
-					tchart->JoinValue(1, cp.pitch / 32768.f);
-					tchart->JoinValue(2, cp.roll / 32768.f);
-					tchart->JoinValue(3, cp.accelerator / 32768.f);
-				});
+			//RunInUIThread([cp]()
+			//	{
+			//		tchart->JoinValue(0, cp.yaw / 255.f);
+			//		tchart->JoinValue(1, cp.pitch / 32768.f);
+			//		tchart->JoinValue(2, cp.roll / 32768.f);
+			//		tchart->JoinValue(3, cp.accelerator / 32768.f);
+			//	});
 			SendPacket(cp, REMOTE_IP, 10485);
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(8));
@@ -130,13 +136,17 @@ int WinMain(HINSTANCE hInstance,
 			{
 				ShowFilrecViewerWindow();
 			}
+			else if (id == 4)
+			{
+				CalibrateShow();
+			}
 			else if (id == 6)
 			{
 				ShowControlWindow();
 			}
 
-	//ShowControlWindow();
-	//
+			//ShowControlWindow();
+			//
 
 			printf("menu id: %d\n", id);
 		});
@@ -151,6 +161,55 @@ int WinMain(HINSTANCE hInstance,
 	osdx.Coord(COORD_FILL, COORD_FILL);
 	osdx.Size({ 0,0 });
 	osd = &osdx;
+	osdx.AddEventListener([](Message, WPARAM, LPARAM lParam)
+		{
+			camplt_mbpos.x = GET_X_LPARAM(lParam);
+			camplt_mbpos.y = GET_Y_LPARAM(lParam);
+			camplt_mbd = true;
+		}, FE_LBUTTONDOWN);
+	osdx.AddEventListener([](...)
+		{
+			camplt_mbd = false;
+
+		}, FE_LBUTTONUP);
+	osdx.AddEventListener([](Message, WPARAM, LPARAM lParam)
+		{
+			if (camplt_mbd)
+			{
+				auto x = GET_X_LPARAM(lParam);
+				auto y = GET_Y_LPARAM(lParam);
+
+				camplt_yaw += (x - camplt_mbpos.x) * camplt_sens;
+				camplt_pitch += (y - camplt_mbpos.y) * camplt_sens;
+
+				camplt_mbpos.x = x;
+				camplt_mbpos.y = y;
+				if (camplt_yaw > 1) camplt_yaw = 1;
+				if (camplt_yaw < -1) camplt_yaw = -1;
+				if (camplt_pitch > 1) camplt_pitch = 1;
+				if (camplt_pitch < -1) camplt_pitch = -1;
+				CommandPack p;
+				p.command = COMMAND_CAMERA;
+
+				auto cam = configs[L"calibration"][L"Camera"];
+				int pn = wcstol(cam[L"pitch_negative"].as_string().c_str(), nullptr, 10);
+				int pp = wcstol(cam[L"pitch_positive"].as_string().c_str(), nullptr, 10);
+				int pz = wcstol(cam[L"pitch_zero"].as_string().c_str(), nullptr, 10);
+				int yn = wcstol(cam[L"yaw_negative"].as_string().c_str(), nullptr, 10);
+				int yp = wcstol(cam[L"yaw_positive"].as_string().c_str(), nullptr, 10);
+				int yz = wcstol(cam[L"yaw_zero"].as_string().c_str(), nullptr, 10);
+
+				p.args[0] = CalibratedValue(yp, yn, yz, camplt_yaw);
+				p.args[1] = CalibratedValue(pp, pn, pz, camplt_pitch);
+				SendPacket(p, REMOTE_IP, 10485);
+				printf("camplt yaw: %d, pitch: %d\n", p.args[0], p.args[1]);
+			}
+		}, FE_MOUSEMOVE);
+
+	osdx.AddEventListener([](...)
+		{
+			camplt_yaw = camplt_pitch = 0;
+		}, FE_RBUTTONDOWN);
 	//vp.Source(L"N:\\Video\\2022-06-29 14-56-30.mp4");
 	//vp.Source(L"D:\\Videos\\vnv.mp4");
 
@@ -284,6 +343,7 @@ int WinMain(HINSTANCE hInstance,
 	crt.Alpha(1);
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);
 	mainFrame.MainLoop();
+	SaveConfigs();
 	return 0;
 }
 
@@ -307,4 +367,19 @@ void OSDUpdateSpeed(float as, float gs)
 void OSDUpdateAlt(float alt, float climb)
 {
 	osd->SetAltc(alt, climb);
+}
+
+//normv: -1 ~ 1
+int CalibratedValue(int maxv, int minv, int zerov, float normv)
+{
+	if (normv > 0)
+	{
+		return zerov + (maxv - zerov) * normv;
+	}
+	else if (normv < 0)
+	{
+		return zerov - (minv - zerov) * normv;
+	}
+	return zerov;
+
 }

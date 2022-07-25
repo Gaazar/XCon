@@ -1,77 +1,95 @@
 {
-    "version": "v0.1b",
-    "h264": "udp://@192.168.1.5:11451",
-    "remote": {
-        "protocol": "udp",
-        "address": "192.168.1.3",
-        "port": "11450"
+    "calibration": {
+        "Camera": {
+            "pitch_negative": "500",
+            "pitch_positive": "2500",
+            "pitch_zero": "1500",
+            "yaw_negative": "500",
+            "yaw_positive": "2500",
+            "yaw_zero": "1500"
+        },
+        "MPU": {
+            "accl_x": "1",
+            "accl_y": "2",
+            "accl_z": "3",
+            "gyro_x": "4",
+            "gyro_y": "5",
+            "gyro_z": "6"
+        }
     },
     "channels": [{
-            "name": "accelerator",
             "index": 0,
+            "name": "accelerator",
             "type": "short"
         },
         {
-            "name": "yaw",
             "index": 1,
+            "name": "yaw",
             "type": "short"
         },
         {
-            "name": "pitch",
             "index": 2,
+            "name": "pitch",
             "type": "short"
         },
         {
-            "name": "roll",
             "index": 3,
+            "name": "roll",
             "type": "short"
         }
     ],
-    "xdevice": 0,
     "control": [{
-            "name": "record",
-            "bind": "dup"
+            "bind": "dup",
+            "name": "record"
         },
         {
-            "name": "toggleAccelecratorLock",
-            "bind": "rs"
+            "bind": "rs",
+            "name": "toggleAccelecratorLock"
         },
         {
-            "name": "accelerator",
             "bind": "lsY",
+            "curve": 8,
             "invert": false,
             "max": "32767",
             "min": "0",
-            "type": "integral",
-            "curve": 8
+            "name": "accelerator",
+            "type": "integral"
         },
         {
-            "name": "yaw",
             "bind": "composite",
-            "max": "255",
-            "min": "-255",
             "compositor": {
                 "+": "rt",
                 "-": "lt"
             },
+            "max": "255",
+            "min": "-255",
+            "name": "yaw",
             "type": "direct"
         },
         {
-            "name": "pitch",
             "bind": "rsY",
             "invert": false,
             "max": "32767",
             "min": "-32768",
+            "name": "pitch",
             "type": "direct"
         },
         {
-            "name": "roll",
             "bind": "rsX",
             "invert": false,
             "max": "32767",
             "min": "-32768",
+            "name": "roll",
             "type": "direct"
         }
     ],
-    "osd": {}
+    "h264": "udp://@192.168.1.5:11451",
+    "osd": {},
+    "remote": {
+        "address": "192.168.1.3",
+        "port": "11450",
+        "protocol": "udp"
+    },
+    "version": "v0.1b",
+    "xdevice": 0
 }

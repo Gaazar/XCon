@@ -63,6 +63,7 @@ namespace FlameUI
 		bool minimal;
 		bool close;
 		bool titled;
+		bool showed = false;
 		POINT mousepos;
 		Frame(SIZE wndSize, POINT wndPosition = { CW_USEDEFAULT,CW_USEDEFAULT }, DWORD extStyles = 0,HWND parent = 0);
 		Frame(Frame* parent, SIZE wndSize, POINT wndPosition = { CW_USEDEFAULT,CW_USEDEFAULT }, DWORD extStyles = 0);

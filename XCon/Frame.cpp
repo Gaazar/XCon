@@ -675,10 +675,12 @@ Frame::Frame(Frame* parent, SIZE wndSize, POINT wndPosition, DWORD extStyles) :F
 }
 void Frame::Close()
 {
+	showed = false;
 	PostMessageW(hWnd, WM_CLOSE, 0, 0);
 }
 void Frame::Show()
 {
+	showed = true;
 	if (!inited)
 	{
 		set_borderless(true);
@@ -692,6 +694,7 @@ void Frame::Show()
 }
 void Frame::Hide()
 {
+	showed = false;
 	ShowWindow(hWnd, SW_HIDE);
 }
 void Frame::MainLoop(bool modeled)

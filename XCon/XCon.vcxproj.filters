@@ -121,6 +121,9 @@
     <ClCompile Include="ControllWindow.cpp">
       <Filter>XCon</Filter>
     </ClCompile>
+    <ClCompile Include="CalibrationWindow.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h">

@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttitudeMeeter.cpp" />
+    <ClCompile Include="CalibrationWindow.cpp" />
     <ClCompile Include="Chart.cpp" />
     <ClCompile Include="ControllWindow.cpp" />
     <ClCompile Include="D3DViewPort.cpp" />

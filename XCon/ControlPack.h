@@ -52,7 +52,7 @@ enum COMMAND : uint32_t
 	COMMAND_RETURN,			  //--
 	COMMAND_SELF_DESTRUCT,	  //--
 	COMMAND_SELFCHECK_STATUS, //[0]=0:success 1:failed
-	COMMAND_CAMERA		// 0-65535
+	COMMAND_CAMERA			  //[0]=yaw out us [1]=pitch out us
 };
 struct MeetersPack
 {

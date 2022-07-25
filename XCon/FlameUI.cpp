@@ -6,6 +6,7 @@
 #include "MenuFrame.h"
 #include "MenuPainter.h"
 #include "DockProvider.h"
+#include <map>
 
 #pragma comment(lib, "Shcore.lib")
 
@@ -112,7 +113,10 @@ void Animate()
 				if ((*i).reserved)
 				{
 					if (!((View*)(*i).reserved)->Disposed())
-						((View*)(*i).reserved)->SendEvent(FE_ANIMATION, (WPARAM) & (*i), (LPARAM)&p);
+					{
+						if (((Frame*)((View*)(*i).reserved)->Root())->showed)
+							((View*)(*i).reserved)->SendEvent(FE_ANIMATION, (WPARAM) & (*i), (LPARAM)&p);
+					}
 				}
 				else if (i->callback)
 				{
@@ -162,7 +166,7 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
 		{
 			if (!(*i)->deleted)
 			{
-				if ((*i)->isDirty())
+				if ((*i)->isDirty() && ((Frame*)(*i))->showed)
 				{
 					(*i)->Render();
 					dirty = true;
@@ -789,6 +793,27 @@ ID2D1Bitmap* FlameUI::LoadBitmapPath(wstring path)
 	wbmp->Release();
 	return bmp;
 
+}
+
+IDWriteTextFormat* FlameUI::GetFont(std::wstring fontfam, float size)
+{
+	static std::map<std::pair<std::wstring, float>, IDWriteTextFormat*> fsm;
+	if (fsm.count({ fontfam,size }))
+	{
+		return fsm[{ fontfam, size }];
+	}
+	IDWriteTextFormat* tfm;
+	gDWFactory->CreateTextFormat(fontfam.c_str(),
+		NULL,
+		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		size,
+		locale,
+		&tfm
+	);
+	fsm[{ fontfam, size }] = tfm;
+	return tfm;
 }
 
 

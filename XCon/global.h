@@ -11,4 +11,5 @@ void OSDUpdateYPR(float y, float p, float r);
 void OSDUpdateGPS(float lat, float lon);
 void OSDUpdateSpeed(float as, float gs);
 void OSDUpdateAlt(float alt,float climb);
+void CalibrateShow();
 

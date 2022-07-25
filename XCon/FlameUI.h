@@ -124,6 +124,8 @@ namespace FlameUI
 		oss << v;
 		return oss.str();
 	}
+
+	IDWriteTextFormat* GetFont(std::wstring fontfam, float size);
 }
 
 

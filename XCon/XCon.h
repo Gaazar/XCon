@@ -37,3 +37,5 @@
 #include "Dropdown.h"
 #include "Math3Df.h"
 #include "AttitudeMeeter.h"
+
+int CalibratedValue(int maxv, int minv, int zerov, float normv);

@@ -54,7 +54,14 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 	{
 	case FE_PAINT:
 	{
-		init = false;
+		if (init)
+		{
+			if (((Frame*)root)->showed)
+			{
+				init = false;
+				UpdateTransform();
+			}
+		}
 		if (render.alpha == 1) break;
 		//render.direct = true;
 		D2D1_MATRIX_3X2_F transform = *(D2D1_MATRIX_3X2_F*)wParam;
@@ -212,6 +219,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 		if (lParam == 0xffff0fff)
 		{
 			auto sr = OnEvent(FE_MOUSEMOVE, 0, ((int)mouse.y << 16) | (int)mouse.x);
+			DispatchEvent(msg, wParam, ((int)mouse.y << 16) | (int)mouse.x);
 			if (sr) return sr;
 			return (LRESULT)this;
 
@@ -259,6 +267,7 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			unsigned short my = (short)mouse.y;
 			unsigned short mx = (short)mouse.x;
 			auto sr = OnEvent(FE_MOUSEMOVE, 0, ((int)my << 16) | (int)mx);
+			DispatchEvent(msg, wParam, ((int)mouse.y << 16) | (int)mouse.x);
 			if (sr) return sr;
 			return (LRESULT)this;
 		}
@@ -349,6 +358,11 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 	default:
 		ret = OnEvent(msg, wParam, lParam);
 	}
+	DispatchEvent(msg, wParam, lParam);
+	return ret;
+}
+void View::DispatchEvent(Message msg, WPARAM wParam, LPARAM lParam)
+{
 	for (auto i = listeners.begin(); i != listeners.end(); ++i)
 	{
 		if ((*i)->event == msg)
@@ -356,7 +370,6 @@ LRESULT View::SendEvent(Message msg, WPARAM wParam, LPARAM lParam)
 			(*i)->func(msg, wParam, lParam);
 		}
 	}
-	return ret;
 }
 
 ID2D1DeviceContext1* View::BeginDraw(const D2D1_COLOR_F& clear, bool dc)
@@ -434,6 +447,7 @@ void View::EndDraw()
 static UINT32 reversive = 0;
 void View::UpdateTransform()
 {
+	//if (init) return;
 	//if (!layout.dirty) return;
 	reversive++;
 	if (reversive > 4) { reversive--; return; }

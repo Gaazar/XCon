@@ -22,6 +22,8 @@ namespace FlameUI
 		bool direct;
 		bool init;
 
+		void DispatchEvent(Message, WPARAM, LPARAM);
+
 	protected:
 		RootView* root;
 		View* parent;
