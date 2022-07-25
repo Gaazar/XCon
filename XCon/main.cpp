@@ -7,7 +7,7 @@ using namespace std;
 void RxData(char* data, int len);
 
 configor::wjson configs = configor::wjson();
-#define REMOTE_IP "192.168.1.6"
+#define REMOTE_IP "192.168.18.1"
 
 
 int main()
@@ -279,7 +279,7 @@ int WinMain(HINSTANCE hInstance,
 	//ShowFilrecViewerWindow();
 
 
-	//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
+	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Controls, 0, 0, nullptr);
 	crt.mouseable = false;
 	crt.Alpha(1);
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);

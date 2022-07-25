@@ -52,6 +52,7 @@ enum COMMAND : uint32_t
 	COMMAND_RETURN,			  //--
 	COMMAND_SELF_DESTRUCT,	  //--
 	COMMAND_SELFCHECK_STATUS, //[0]=0:success 1:failed
+	COMMAND_CAMERA		// 0-65535
 };
 struct MeetersPack
 {
@@ -193,17 +194,17 @@ inline int sizeofpack(Packet& p)
 	switch (t)
 	{
 	case PACKET_TYPE_CONTROL:
-		return sizeof(ControlPack);
+		return sizeof(ControlPack) + 4;
 	case PACKET_TYPE_FEEDBACK:
-		return sizeof(FeedbackPack);
+		return sizeof(FeedbackPack) + 4;
 	case PACKET_TYPE_CONFIG:
-		return sizeof(ConfigPack);
+		return sizeof(ConfigPack) + 4;
 	case PACKET_TYPE_COMMAND:
-		return sizeof(CommandPack);
+		return sizeof(CommandPack) + 4;
 	case PACKET_TYPE_MEETERS:
-		return sizeof(MeetersPack);
+		return sizeof(MeetersPack) + 4;
 	case PACKET_TYPE_MAVLINK:
-		return p.mavlink.meta.len + sizeof(p.mavlink.meta);
+		return p.mavlink.meta.len + sizeof(p.mavlink.meta) + 8;
 	default:
 		break;
 	}

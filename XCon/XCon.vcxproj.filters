@@ -10,9 +10,6 @@
     <ClCompile Include="CheckBox.cpp">
       <Filter>FlameUI\sources</Filter>
     </ClCompile>
-    <ClCompile Include="ControllWindow.cpp">
-      <Filter>FlameUI\sources</Filter>
-    </ClCompile>
     <ClCompile Include="D3DViewPort.cpp">
       <Filter>FlameUI\sources</Filter>
     </ClCompile>
@@ -97,9 +94,6 @@
     <ClCompile Include="Toggle.cpp">
       <Filter>FlameUI\sources</Filter>
     </ClCompile>
-    <ClCompile Include="Transmission.cpp">
-      <Filter>FlameUI\sources</Filter>
-    </ClCompile>
     <ClCompile Include="VideoPlayer.cpp">
       <Filter>FlameUI\sources</Filter>
     </ClCompile>
@@ -121,6 +115,12 @@
     <ClCompile Include="AttitudeMeeter.cpp">
       <Filter>XCon</Filter>
     </ClCompile>
+    <ClCompile Include="Transmission.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllWindow.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h">
@@ -133,9 +133,6 @@
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
     <ClInclude Include="CheckBox.h">
-      <Filter>FlameUI\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlPack.h">
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
     <ClInclude Include="D3DViewPort.h">
@@ -234,9 +231,6 @@
     <ClInclude Include="Toggle.h">
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Transmission.h">
-      <Filter>FlameUI\headers</Filter>
-    </ClInclude>
     <ClInclude Include="VideoPlayer.h">
       <Filter>FlameUI\headers</Filter>
     </ClInclude>
@@ -259,6 +253,12 @@
       <Filter>XCon</Filter>
     </ClInclude>
     <ClInclude Include="AttitudeMeeter.h">
+      <Filter>XCon</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlPack.h">
+      <Filter>XCon</Filter>
+    </ClInclude>
+    <ClInclude Include="Transmission.h">
       <Filter>XCon</Filter>
     </ClInclude>
   </ItemGroup>
