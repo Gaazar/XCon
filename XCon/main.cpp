@@ -109,12 +109,15 @@ void OnRecvTransmisson(int len, char* buff)
 	}
 
 }
+void mavpxt();
 int WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
 	int nCmdShow)
 {
+
 	InitTransmission(10058);
+	//mavpxt();
 	Initiate();
 	//Test();
 	//return 0;
@@ -188,7 +191,7 @@ int WinMain(HINSTANCE hInstance,
 		p.args[0] = CalibratedValue(yp, yn, yz, camplt_yaw);
 		p.args[1] = CalibratedValue(pp, pn, pz, camplt_pitch);
 		SendPacket(p, REMOTE_IP, 10485);
-		printf("camplt yaw: %d, pitch: %d\n", p.args[0], p.args[1]);
+		//printf("camplt yaw: %d, pitch: %d\n", p.args[0], p.args[1]);
 
 	};
 	osdx.AddEventListener([&](Message, WPARAM, LPARAM lParam)

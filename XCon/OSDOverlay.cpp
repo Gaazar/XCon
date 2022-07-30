@@ -167,7 +167,7 @@ void OSDOverlay::Draw()
 	{
 		ctx->SetTransform(rtf);
 		wchar_t infotxt[128];
-		auto l = wsprintf(infotxt, L"经度: %s°\n纬度: %s°\n地速: %s m/s", to_wstring(lat_d).c_str(), to_wstring(lon_d).c_str(), to_wstring(gspeed_d).c_str());
+		auto l = wsprintf(infotxt, L"经度: %s°\n纬度: %s°\n地速: %s m/s", to_wstring(lon_d).c_str(), to_wstring(lat_d).c_str(), to_wstring(gspeed_d).c_str());
 		ctx->DrawTextW(infotxt, l, fmt, { w - 250,h - 120,w,h }, br);
 
 	}

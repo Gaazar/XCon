@@ -68,6 +68,14 @@ void ShowFilrecViewerWindow()
 				ca->JoinValue(2, f, false);
 
 				fs.read((char*)&f, sizeof f);
+				cm->JoinValue(0, f, false);
+				fs.read((char*)&f, sizeof f);
+				cm->JoinValue(1, f, false);
+				fs.read((char*)&f, sizeof f);
+				cm->JoinValue(2, f, false);
+
+
+				fs.read((char*)&f, sizeof f);
 				cq->JoinValue(0, f, false);
 				fs.read((char*)&f, sizeof f);
 				cq->JoinValue(1, f, false);
@@ -174,9 +182,9 @@ void ShowFilrecViewerWindow()
 			cq->GenerateCurve(1);
 			cq->GenerateCurve(2);
 			cq->GenerateCurve(3);
-			//cm->GenerateCurve(0);
-			//cm->GenerateCurve(1);
-			//cm->GenerateCurve(2);
+			cm->GenerateCurve(0);
+			cm->GenerateCurve(1);
+			cm->GenerateCurve(2);
 
 		}, FE_S_SCROLLING);
 

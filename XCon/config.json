@@ -1,8 +1,8 @@
 {
     "calibration": {
         "Camera": {
-            "pitch_negative": "500",
-            "pitch_positive": "2500",
+            "pitch_negative": "550",
+            "pitch_positive": "2000",
             "pitch_zero": "1500",
             "yaw_negative": "500",
             "yaw_positive": "2500",
