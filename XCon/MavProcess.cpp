@@ -23,7 +23,7 @@ void RxData(char* data, int len)
 				mavlink_msg_attitude_decode(&msg, &a);
 				if (a.yaw < 0) a.yaw += 2 * 3.1415926535;
 				Amtr_Mav(a.yaw * RAD2DEG, a.pitch * RAD2DEG, a.roll * RAD2DEG);
-				OSDUpdateYPR(a.yaw * RAD2DEG, a.pitch * RAD2DEG, a.roll * RAD2DEG);
+				OSDUpdateYPR(a.yaw * RAD2DEG, a.pitch * RAD2DEG, -a.roll * RAD2DEG);
 				//printf("roll: %fdeg yaw: %fdeg pitch: %fdeg\n", a.roll * RAD2DEG, a.yaw * RAD2DEG, a.pitch * RAD2DEG);
 				break;
 			}

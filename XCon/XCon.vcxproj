@@ -23,33 +23,33 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{dc3cd8d7-bf75-4803-b26f-a3e2f2898137}</ProjectGuid>
     <RootNamespace>FlameUI</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>XCon</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -151,6 +151,7 @@
     <ClInclude Include="D3DViewPort.h" />
     <ClInclude Include="DockProvider.h" />
     <ClInclude Include="Dropdown.h" />
+    <ClInclude Include="DSPWindow.h" />
     <ClInclude Include="FlameUIBasics.h" />
     <ClInclude Include="FlirecViewer.h" />
     <ClInclude Include="global.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="MenuBar.h" />
     <ClInclude Include="MenuFrame.h" />
     <ClInclude Include="MenuPainter.h" />
+    <ClInclude Include="OFDMModulator.h" />
     <ClInclude Include="OSDOverlay.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="RadioButton.h" />
@@ -180,6 +182,7 @@
     <ClInclude Include="ScrollView.h" />
     <ClInclude Include="SectionBar.h" />
     <ClInclude Include="SeperatorHandle.h" />
+    <ClInclude Include="Sharp.h" />
     <ClInclude Include="SheetView.h" />
     <ClInclude Include="TextEditBase.h" />
     <ClInclude Include="TextEditor.h" />
@@ -199,6 +202,8 @@
     <ClCompile Include="D3DViewPort.cpp" />
     <ClCompile Include="DockProvider.cpp" />
     <ClCompile Include="Dropdown.cpp" />
+    <ClCompile Include="DSPWindow.cpp" />
+    <ClInclude Include="fft.h" />
     <ClCompile Include="FlirecViewer.cpp" />
     <ClCompile Include="ImGui.cpp" />
     <ClCompile Include="ImGuiCanvas.cpp" />
@@ -216,6 +221,7 @@
     <ClCompile Include="MenuBar.cpp" />
     <ClCompile Include="MenuFrame.cpp" />
     <ClCompile Include="MenuPainter.cpp" />
+    <ClCompile Include="OFDMModulator.cpp" />
     <ClCompile Include="OSDOverlay.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="RadioButton.cpp" />
@@ -224,7 +230,9 @@
     <ClCompile Include="ScrollView.cpp" />
     <ClCompile Include="SectionBar.cpp" />
     <ClCompile Include="SeperatorHandle.cpp" />
+    <ClCompile Include="SharedImpl.cpp" />
     <ClCompile Include="SheetView.cpp" />
+    <ClCompile Include="StlImpl.cpp" />
     <ClCompile Include="TextEditBase.cpp" />
     <ClCompile Include="TextEditor.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -234,6 +242,7 @@
     <ClCompile Include="Transmission.cpp" />
     <ClCompile Include="VideoPlayer.cpp" />
     <ClCompile Include="View.cpp" />
+    <ClCompile Include="Win32impl.cpp" />
     <ClCompile Include="XInputCehcker.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

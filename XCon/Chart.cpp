@@ -127,11 +127,11 @@ void Chart::GenerateCurve(int i)
 			if (vl - n - 1 < 0) break;
 			if (n == 0)
 			{
-				s->BeginFigure({ w - wr * n ,h / 2 + series[i].values[vl - n - 1] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
+				s->BeginFigure({ w - wr * n ,h / 2 - series[i].values[vl - n - 1] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
 			}
 			else
 			{
-				s->AddLine({ w - wr * n ,h / 2 + series[i].values[vl - n - 1] * hr });
+				s->AddLine({ w - wr * n ,h / 2 - series[i].values[vl - n - 1] * hr });
 			}
 		}
 	}
@@ -144,11 +144,11 @@ void Chart::GenerateCurve(int i)
 				break;
 			if (n == 0)
 			{
-				s->BeginFigure({ w - wr * c ,h / 2 + series[i].values[beginIndex + n] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
+				s->BeginFigure({ w - wr * c ,h / 2 - series[i].values[beginIndex + n] * hr }, D2D1_FIGURE_BEGIN_HOLLOW);
 			}
 			else
 			{
-				s->AddLine({ w - wr * c ,h / 2 + series[i].values[beginIndex + n] * hr });
+				s->AddLine({ w - wr * c ,h / 2 - series[i].values[beginIndex + n] * hr });
 			}
 		}
 	}

@@ -109,6 +109,7 @@ void OnRecvTransmisson(int len, char* buff)
 	}
 
 }
+#include "DSPWindow.h"
 void mavpxt();
 int WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
@@ -158,7 +159,8 @@ int WinMain(HINSTANCE hInstance,
 	vp.Coord(COORD_FILL, COORD_FILL);
 	vp.Size({ 300,0 });
 	vp.Position({ 0,32 });
-	vp.Source(L"udp://@192.168.1.10:11451");
+	vp.Source(L"udp://@192.168.18.113:11451");
+	//vp.Source(L"D:/Videos/OBS Temporary/2023-06-04 17-44-42.mp4");
 
 	OSDOverlay osdx(&vp);
 	osdx.Coord(COORD_FILL, COORD_FILL);
@@ -175,7 +177,7 @@ int WinMain(HINSTANCE hInstance,
 			camplt_mbd = false;
 
 		}, FE_LBUTTONUP);
-	auto campinvk = []() 
+	auto campinvk = []()
 	{
 		CommandPack p;
 		p.command = COMMAND_CAMERA;
@@ -202,7 +204,7 @@ int WinMain(HINSTANCE hInstance,
 				auto y = GET_Y_LPARAM(lParam);
 
 				camplt_yaw += (x - camplt_mbpos.x) * camplt_sens;
-				camplt_pitch += (y - camplt_mbpos.y) * camplt_sens;
+				camplt_pitch -= (y - camplt_mbpos.y) * camplt_sens;
 
 				camplt_mbpos.x = x;
 				camplt_mbpos.y = y;
@@ -351,6 +353,7 @@ int WinMain(HINSTANCE hInstance,
 	crt.mouseable = false;
 	crt.Alpha(1);
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ControlRecv, (LPVOID)OnRecvTransmisson, 0, nullptr);
+	//ShowDSPWindow();
 	mainFrame.MainLoop();
 	SaveConfigs();
 	return 0;

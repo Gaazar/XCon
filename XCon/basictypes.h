@@ -140,6 +140,18 @@ namespace FlameUI {
 		{
 			return { x + v.x,y + v.y };
 		}
+		Vector2 operator -(const Vector2& v)
+		{
+			return { x - v.x,y - v.y };
+		}
+		Vector2 operator -()
+		{
+			return { -x ,-y };
+		}
+		Vector2 operator *(const float v)
+		{
+			return { x * v,y * v };
+		}
 		float SqrDistance()
 		{
 			return x * x + y * y;

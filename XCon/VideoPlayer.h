@@ -4,6 +4,7 @@
 #include <thread>
 #include <string>
 #include <mutex>
+#include <chrono>
 
 extern "C" {
 #include "libavcodec/avcodec.h"
@@ -35,7 +36,8 @@ namespace FlameUI
 		std::wstring url;
 		std::mutex mtx;
 		std::mutex mtxRender;
-
+		std::chrono::time_point<std::chrono::steady_clock> beginTime;
+		ID2D1Effect* pptEffect = nullptr;
 
 		AVFrame* NextFrame();
 		void Animation(float progress, int p1, int p2) override;

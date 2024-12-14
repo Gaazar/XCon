@@ -124,6 +124,21 @@
     <ClCompile Include="CalibrationWindow.cpp">
       <Filter>XCon</Filter>
     </ClCompile>
+    <ClCompile Include="DSPWindow.cpp">
+      <Filter>XCon</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedImpl.cpp">
+      <Filter>Sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="StlImpl.cpp">
+      <Filter>Sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32impl.cpp">
+      <Filter>Sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="OFDMModulator.cpp">
+      <Filter>dsp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h">
@@ -264,6 +279,18 @@
     <ClInclude Include="Transmission.h">
       <Filter>XCon</Filter>
     </ClInclude>
+    <ClInclude Include="DSPWindow.h">
+      <Filter>XCon</Filter>
+    </ClInclude>
+    <ClInclude Include="fft.h">
+      <Filter>dsp</Filter>
+    </ClInclude>
+    <ClInclude Include="Sharp.h">
+      <Filter>Sharp</Filter>
+    </ClInclude>
+    <ClInclude Include="OFDMModulator.h">
+      <Filter>dsp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FlameUI">
@@ -277,6 +304,12 @@
     </Filter>
     <Filter Include="FlameUI\sources">
       <UniqueIdentifier>{8978f414-e4a6-472e-a720-2280996f1863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dsp">
+      <UniqueIdentifier>{a4d1f615-92b6-42c5-a720-bde05da39c27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sharp">
+      <UniqueIdentifier>{40585aa5-68a0-4f5e-9b78-ded64ff7d194}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

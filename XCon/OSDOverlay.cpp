@@ -16,6 +16,19 @@ LRESULT OSDOverlay::OnEvent(Message msg, WPARAM wParam, LPARAM lParam)
 {
 	return 0;
 }
+Matrix3x2F QuadraticBezier(Vector2 start, Vector2 control, Vector2 end)
+{
+	Vector2 bX =  (control - start) * 2;
+	Vector2 bY = (end - (start + bX));
+	Vector2 o = start;
+
+	Matrix3x2F m(bX.x, bX.y, bY.x, bY.y, o.x, o.y);
+	if (!m.Invert())
+	{
+		std::cout << "det = 0\n";
+	}
+	return m;
+}
 void OSDOverlay::Draw()
 {
 	auto ctx = BeginDraw(ColorF(0, 0, 0, 0));
@@ -181,8 +194,50 @@ void OSDOverlay::Draw()
 	ctx->DrawRectangle({ -3,-3,3,3 }, br);
 	ctx->DrawRectangle({ -120,-3,-65,3 }, br);
 	ctx->DrawRectangle({ 65,-3,120,3 }, br);
+	//auto idt = Matrix3x2F::Scale({ 200,-200 }, { 0,0 }) * Matrix3x2F::Translation(w / 2 - 100, h / 2 - 100) * rtf;
 
+	//auto scal = D2D1::Matrix3x2F::Scale({ 1,-1 }, { 0,0 });
+	//auto skew = D2D1::Matrix3x2F::Skew(0, 45, { 0,0 });
+	//auto tras = D2D1::Matrix3x2F::Translation({ 0.1,0.4 });
+	//auto scal2 = D2D1::Matrix3x2F::Scale({ 0.4 ,0.4 }, { 0,0 });
 
+	//auto fin = scal * skew * scal2 * tras;
+	//ctx->SetTransform(idt);
+	//br->SetOpacity(1);
+	//br->SetColor(ColorF::ColorF(ColorF::Red)); //y 
+	//ctx->DrawLine({ 0,0 }, { 0,1 }, br, 0.1);
+	//br->SetColor(ColorF::ColorF(ColorF::Green)); //x
+	//ctx->DrawLine({ 0,0 }, { 1,0 }, br, 0.1);
+
+	//ctx->SetTransform(fin * idt);
+	//br->SetColor(ColorF::ColorF(ColorF::Orange)); //y
+	//ctx->DrawLine({ 0,0 }, { 0,1 }, br, 0.1);
+	//br->SetColor(ColorF::ColorF(ColorF::Purple)); //x
+	//ctx->DrawLine({ 0,0 }, { 1,0 }, br, 0.1);
+
+	//ctx->DrawEllipse(D2D1::Ellipse({ 0,0 }, 0.2, 0.2), br, 0.1);
+	//static bool a;
+	//if (!a)
+	//{
+	//	std::cout << "matrix:3x2\n\t"
+	//		<< fin._11 << "\t" << fin._12 << "\n\t"
+	//		<< fin._21 << "\t" << fin._22 << "\n\t"
+	//		<< fin._31 << "\t" << fin._32 << "\n\t"
+	//		<< std::endl;
+	//	fin.Invert();
+	//	std::cout << "matrix:3x2 invert\n\t"
+	//		<< fin._11 << "\t" << fin._12 << "\n\t"
+	//		<< fin._21 << "\t" << fin._22 << "\n\t"
+	//		<< fin._31 << "\t" << fin._32 << "\n\t"
+	//		<< std::endl;
+	//	fin = QuadraticBezier({ 0.1f,0.4f }, { 0.3f,0.6f }, { 0.5f,0.4f });
+	//	std::cout << "matrix:3x2 qbezier\n\t"
+	//		<< fin._11 << "\t" << fin._12 << "\n\t"
+	//		<< fin._21 << "\t" << fin._22 << "\n\t"
+	//		<< fin._31 << "\t" << fin._32 << "\n\t"
+	//		<< std::endl;
+	//	a = true;
+	//}
 	br->Release();
 	EndDraw();
 
